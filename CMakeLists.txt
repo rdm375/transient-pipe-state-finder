@@ -469,3 +469,15 @@ if(BUILD_TESTING)
         COMMAND state_finder_regularized_objective_test
     )
 endif()
+
+# M1.6c — Nonlinear regularized initial-state reconstruction.
+
+add_executable(
+    state_finder_regularized_reconstruction
+    tests/cpp/regularized_state_reconstruction.cpp
+)
+
+target_link_libraries(
+    state_finder_regularized_reconstruction
+    PRIVATE state_finder_core
+)

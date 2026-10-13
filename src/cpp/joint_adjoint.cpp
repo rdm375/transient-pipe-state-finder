@@ -17,10 +17,10 @@
 namespace state_finder {
 
 
-JointAdjointResult evaluate_joint_adjoint(
+JointAdjointResult apply_joint_observation_adjoint_physical(
     const ForwardConfiguration& configuration,
-    const JointInverseVariables& variables,
-    const BoundaryObservationRecord& observations,
+    const JointTrajectory& trajectory,
+    const BoundaryMeasurements& direct,
     JointVariableScales scales)
 {
     const int n = configuration.n;
@@ -30,26 +30,31 @@ JointAdjointResult evaluate_joint_adjoint(
     const auto count =
         static_cast<std::size_t>(steps+1);
 
-    validate_boundary_observations(observations, count);
+    if (trajectory.n != n ||
+        trajectory.steps != steps)
+        throw std::invalid_argument(
+            "Joint adjoint trajectory mismatch");
 
-    const auto trajectory =
-        record_joint_trajectory(configuration, variables);
+    const auto valid = [count](
+        const std::vector<double>& values)
+    {
+        if (values.size() != count)
+            throw std::invalid_argument(
+                "Joint adjoint forcing dimension mismatch");
 
-    const FourChannelPrediction prediction{
-        trajectory.predicted
+        for (double value : values)
+            if (!std::isfinite(value))
+                throw std::invalid_argument(
+                    "Nonfinite joint adjoint forcing");
     };
 
-    const auto objective =
-        evaluate_four_channel_objective(
-            observations, prediction);
-
-    const auto direct =
-        four_channel_observation_gradient(
-            observations, prediction);
+    valid(direct.inlet_pressure);
+    valid(direct.inlet_flow);
+    valid(direct.outlet_pressure);
+    valid(direct.outlet_flow);
 
     JointAdjointResult result;
 
-    result.measurement_objective = objective.total;
 
     const std::size_t state_count =
         static_cast<std::size_t>(2*n+1);
@@ -194,6 +199,94 @@ JointAdjointResult evaluate_joint_adjoint(
             throw std::runtime_error(
                 "Nonfinite joint adjoint gradient");
     }
+
+    return result;
+}
+
+
+JointAdjointResult apply_joint_observation_adjoint(
+    const ForwardConfiguration& configuration,
+    const JointTrajectory& trajectory,
+    std::span<const double> whitened_forcing,
+    const BoundaryObservationRecord& observations,
+    JointVariableScales scales)
+{
+    const int steps = configuration.steps;
+
+    if (steps < 0)
+        throw std::invalid_argument(
+            "Invalid joint adjoint step count");
+
+    const auto count =
+        static_cast<std::size_t>(steps + 1);
+
+    validate_boundary_observations(observations, count);
+
+    const auto first =
+        observations.include_initial
+        ? std::size_t{0}
+        : std::size_t{1};
+
+    if (whitened_forcing.size() != 4*(count-first))
+        throw std::invalid_argument(
+            "Joint adjoint normalized forcing dimension mismatch");
+
+    const auto& s = observations.scales;
+
+    BoundaryMeasurements direct;
+
+    direct.inlet_pressure.assign(count, 0.0);
+    direct.inlet_flow.assign(count, 0.0);
+    direct.outlet_pressure.assign(count, 0.0);
+    direct.outlet_flow.assign(count, 0.0);
+
+    std::size_t row = 0;
+
+    for (std::size_t k = first; k < count; ++k) {
+        direct.inlet_pressure[k] =
+            whitened_forcing[row++] / s.inlet_pressure;
+
+        direct.inlet_flow[k] =
+            whitened_forcing[row++] / s.inlet_flow;
+
+        direct.outlet_pressure[k] =
+            whitened_forcing[row++] / s.outlet_pressure;
+
+        direct.outlet_flow[k] =
+            whitened_forcing[row++] / s.outlet_flow;
+    }
+
+    return apply_joint_observation_adjoint_physical(
+        configuration, trajectory, direct, scales);
+}
+
+JointAdjointResult evaluate_joint_adjoint(
+    const ForwardConfiguration& configuration,
+    const JointInverseVariables& variables,
+    const BoundaryObservationRecord& observations,
+    JointVariableScales scales)
+{
+    const auto trajectory =
+        record_joint_trajectory(configuration, variables);
+
+    const FourChannelPrediction prediction{
+        trajectory.predicted
+    };
+
+    const auto objective =
+        evaluate_four_channel_objective(
+            observations, prediction);
+
+    const auto& residuals = objective.residuals;
+
+    auto result = apply_joint_observation_adjoint(
+        configuration,
+        trajectory,
+        residuals,
+        observations,
+        scales);
+
+    result.measurement_objective = objective.total;
 
     return result;
 }

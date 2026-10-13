@@ -888,3 +888,22 @@ target_link_libraries(
     state_finder_m22c_convergence_study
     PRIVATE state_finder_core
 )
+
+
+# M2.2c-8C — Arbitrary four-channel observation adjoint.
+add_executable(
+    state_finder_joint_observation_adjoint_test
+    tests/cpp/joint_observation_adjoint_test.cpp
+)
+
+target_link_libraries(
+    state_finder_joint_observation_adjoint_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_joint_observation_adjoint
+        COMMAND state_finder_joint_observation_adjoint_test
+    )
+endif()

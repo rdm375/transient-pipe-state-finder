@@ -1,6 +1,9 @@
 #pragma once
 
 #include "state_finder/joint_scaled_problem.hpp"
+#include "state_finder/joint_trajectory.hpp"
+
+#include <span>
 
 #include <vector>
 
@@ -22,6 +25,25 @@ struct JointAdjointResult {
 
     double max_linear_backward_error = 0.0;
 };
+
+
+// Apply the transpose of the normalized four-channel
+// observation Jacobian to arbitrary observation forcing.
+//
+// Input ordering matches normalized_joint_tangent_residuals():
+// [pin, min, pout, mout] at each included time sample.
+//
+// The result is in dimensionless joint optimization
+// coordinates, matching pack_joint_variables().
+//
+// The nonlinear trajectory is reused; no forward
+// integration is performed by this overload.
+JointAdjointResult apply_joint_observation_adjoint(
+    const ForwardConfiguration& configuration,
+    const JointTrajectory& trajectory,
+    std::span<const double> whitened_forcing,
+    const BoundaryObservationRecord& observations,
+    JointVariableScales scales = {});
 
 // Exact discrete adjoint of the implemented implicit
 // transient equations, up to forward/Newton solve tolerance.

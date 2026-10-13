@@ -926,3 +926,22 @@ if(BUILD_TESTING)
         COMMAND state_finder_joint_gauss_newton_operator_test
     )
 endif()
+
+
+# M2.2c-8E — End-to-end joint nonlinear reconstruction.
+add_executable(
+    state_finder_joint_nonlinear_reconstruction_test
+    tests/cpp/joint_nonlinear_reconstruction_test.cpp
+)
+
+target_link_libraries(
+    state_finder_joint_nonlinear_reconstruction_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_joint_nonlinear_reconstruction
+        COMMAND state_finder_joint_nonlinear_reconstruction_test
+    )
+endif()

@@ -255,3 +255,28 @@ if(BUILD_TESTING)
         COMMAND state_finder_adjoint_components_test
     )
 endif()
+
+
+# M1.5b long-trajectory benchmark
+# Deliberately excluded from the regular CTest suite.
+add_executable(
+    state_finder_adjoint_long_trajectory
+    tests/cpp/adjoint_long_trajectory.cpp
+)
+
+target_link_libraries(
+    state_finder_adjoint_long_trajectory
+    PRIVATE state_finder_core
+)
+
+
+# M1.5b — Observation-window sensitivity diagnostics
+add_executable(
+    state_finder_observation_windows
+    tests/cpp/observation_windows.cpp
+)
+
+target_link_libraries(
+    state_finder_observation_windows
+    PRIVATE state_finder_core
+)

@@ -1,0 +1,12 @@
+reference_completed_steps=8000
+candidate_completed_steps=8000
+reference_mass_defect=6.2160353309081984e-08
+candidate_mass_defect=6.2263055156108749e-08
+first,last,objective,max_inlet_flow_difference,max_outlet_pressure_difference
+0,80,5.3415934241208767,0.88086000682618248,681.42296826373786
+81,800,0.082381054966959938,0.08405333857679409,146.4945759838447
+801,8000,1.1947123543218275e-15,1.0235623904009117e-08,1.8133781850337982e-05
+max_final_pressure_difference=1.8067657947540283e-07
+max_final_flow_difference=1.0270184702676488e-10
+final_inlet_flow_difference=1.0270184702676488e-10
+PASS observation-window diagnostics

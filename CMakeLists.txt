@@ -945,3 +945,21 @@ if(BUILD_TESTING)
         COMMAND state_finder_joint_nonlinear_reconstruction_test
     )
 endif()
+
+# M2.2c-8F — Joint regularization preconditioner.
+add_executable(
+    state_finder_joint_regularization_preconditioner_test
+    tests/cpp/joint_regularization_preconditioner_test.cpp
+)
+
+target_link_libraries(
+    state_finder_joint_regularization_preconditioner_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_joint_regularization_preconditioner
+        COMMAND state_finder_joint_regularization_preconditioner_test
+    )
+endif()

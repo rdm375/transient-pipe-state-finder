@@ -1,5 +1,6 @@
 
 #include "state_finder/joint_gauss_newton_operator.hpp"
+#include "state_finder/joint_regularization_preconditioner.hpp"
 #include "state_finder/joint_scaled_problem.hpp"
 
 #include <algorithm>
@@ -211,6 +212,7 @@ int main()
             lbfgs_options.gradient_tolerance = 1.0e-7;
 
             Run gn;
+            Run pcgn;
             Run lbfgs;
 
             const auto clock = [] {
@@ -228,6 +230,20 @@ int main()
 
             const auto t1 = clock();
 
+            const auto preconditioner_factory =
+                make_joint_regularization_preconditioner_factory(
+                    n, steps, regularization);
+
+            pcgn.result = minimize_gauss_newton(
+                objective,
+                initial,
+                factory,
+                gn_options,
+                &pcgn.diagnostics,
+                preconditioner_factory);
+
+            const auto t1b = clock();
+
             lbfgs.result = minimize_lbfgs(
                 objective,
                 initial,
@@ -239,12 +255,19 @@ int main()
                 std::chrono::duration<double>(
                     t1-t0).count();
 
+            pcgn.seconds =
+                std::chrono::duration<double>(
+                    t1b-t1).count();
+
             lbfgs.seconds =
                 std::chrono::duration<double>(
-                    t2-t1).count();
+                    t2-t1b).count();
 
             gn.truth_error =
                 distance(gn.result.variables, truth_x);
+
+            pcgn.truth_error =
+                distance(pcgn.result.variables, truth_x);
 
             lbfgs.truth_error =
                 distance(lbfgs.result.variables, truth_x);
@@ -252,7 +275,16 @@ int main()
             std::cout << "\nCASE " << name << '\n';
 
             report("GN", gn);
+            report("PCGN", pcgn);
             report("LBFGS", lbfgs);
+
+            std::cout
+                << "pcg_iteration_ratio="
+                << static_cast<double>(
+                    pcgn.diagnostics.pcg_iterations) /
+                   std::max(
+                       1, gn.diagnostics.pcg_iterations)
+                << '\n';
 
             const auto initial_objective =
                 problem.evaluate(initial).total;
@@ -263,12 +295,18 @@ int main()
                 "Gauss-Newton increased objective");
 
             require(
+                pcgn.result.final_objective <=
+                    initial_objective + 1.0e-10,
+                "Preconditioned GN increased objective");
+
+            require(
                 lbfgs.result.final_objective <=
                     initial_objective + 1.0e-10,
                 "L-BFGS increased objective");
 
             require(
                 std::isfinite(gn.truth_error) &&
+                std::isfinite(pcgn.truth_error) &&
                 std::isfinite(lbfgs.truth_error),
                 "Nonfinite reconstruction error");
 
@@ -276,6 +314,11 @@ int main()
                 gn.result.variables.size() ==
                     initial.size(),
                 "GN reconstruction dimension mismatch");
+
+            require(
+                pcgn.result.variables.size() ==
+                    initial.size(),
+                "PCGN reconstruction dimension mismatch");
 
             require(
                 lbfgs.result.variables.size() ==

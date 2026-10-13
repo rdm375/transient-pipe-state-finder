@@ -963,3 +963,38 @@ if(BUILD_TESTING)
         COMMAND state_finder_joint_regularization_preconditioner_test
     )
 endif()
+
+# M2.3-A — Engineering reference trajectory.
+add_executable(
+    state_finder_m23a_reference
+    apps/m23a_reference_trajectory.cpp
+)
+
+target_link_libraries(
+    state_finder_m23a_reference
+    PRIVATE state_finder_core
+)
+
+
+# Reusable analytical steady-state initializer.
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/steady_state_initializer.cpp
+)
+
+add_executable(
+    state_finder_steady_state_initializer_test
+    tests/cpp/steady_state_initializer_test.cpp
+)
+
+target_link_libraries(
+    state_finder_steady_state_initializer_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_steady_state_initializer
+        COMMAND state_finder_steady_state_initializer_test
+    )
+endif()

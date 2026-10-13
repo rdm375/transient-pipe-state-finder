@@ -591,3 +591,39 @@ if(BUILD_TESTING)
             "${CMAKE_CURRENT_BINARY_DIR}/shared_operator_test.txt"
     )
 endif()
+
+# M2.0a — Matrix-free Gauss–Newton linear solver.
+add_executable(
+    state_finder_matrix_free_cg_test
+    tests/cpp/matrix_free_cg_test.cpp
+)
+
+target_link_libraries(
+    state_finder_matrix_free_cg_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_matrix_free_cg
+        COMMAND state_finder_matrix_free_cg_test
+    )
+endif()
+
+# M2.0b — Matrix-free pipeline Gauss-Newton operator.
+add_executable(
+    state_finder_gauss_newton_operator_test
+    tests/cpp/gauss_newton_operator_test.cpp
+)
+
+target_link_libraries(
+    state_finder_gauss_newton_operator_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_gauss_newton_operator
+        COMMAND state_finder_gauss_newton_operator_test
+    )
+endif()

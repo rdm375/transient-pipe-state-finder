@@ -15,7 +15,7 @@ namespace state_finder {
 
 TangentLinearResult evaluate_tangent_linear(
     const ForwardConfiguration& configuration,
-    const InitialState& initial_state,
+    const Trajectory& trajectory,
     const std::vector<double>& scaled_direction,
     InitialStateScales scales)
 {
@@ -39,13 +39,14 @@ TangentLinearResult evaluate_tangent_linear(
                 "Nonfinite tangent direction");
     }
 
-    const auto trajectory =
-        record_trajectory(configuration, initial_state);
-
-    if (trajectory.info != 0 ||
-        trajectory.completed_steps != steps)
-        throw std::runtime_error(
-            "Tangent-linear forward trajectory failed");
+    if (trajectory.n != n ||
+        trajectory.steps != steps ||
+        trajectory.info != 0 ||
+        trajectory.completed_steps != steps ||
+        trajectory.states.size() !=
+            static_cast<std::size_t>(steps+1)*width)
+        throw std::invalid_argument(
+            "Invalid tangent reference trajectory");
 
     // Interleaved physical perturbation at t=0.
     std::vector<double> direction(width, 0.0);
@@ -131,6 +132,23 @@ TangentLinearResult evaluate_tangent_linear(
     output.final_state = std::move(direction);
 
     return output;
+}
+
+
+TangentLinearResult evaluate_tangent_linear(
+    const ForwardConfiguration& configuration,
+    const InitialState& initial_state,
+    const std::vector<double>& scaled_direction,
+    InitialStateScales scales)
+{
+    const auto trajectory =
+        record_trajectory(configuration, initial_state);
+
+    return evaluate_tangent_linear(
+        configuration,
+        trajectory,
+        scaled_direction,
+        scales);
 }
 
 } // namespace state_finder

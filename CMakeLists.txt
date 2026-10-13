@@ -533,3 +533,61 @@ target_link_libraries(
     state_finder_matrix_free_normal_operator
     PRIVATE state_finder_core
 )
+
+# M1.8c-1 — Direct observation-forced discrete adjoint.
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/observation_adjoint.cpp
+)
+
+add_executable(
+    state_finder_observation_adjoint_test
+    tests/cpp/observation_adjoint_test.cpp
+)
+
+target_link_libraries(
+    state_finder_observation_adjoint_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_observation_adjoint
+        COMMAND state_finder_observation_adjoint_test
+    )
+endif()
+
+# M1.8c — Independent transpose identity and
+# shared-trajectory tangent equivalence.
+add_executable(
+    state_finder_shared_operators_test
+    analysis/verify_shared_operators.cpp
+)
+
+target_link_libraries(
+    state_finder_shared_operators_test
+    PRIVATE state_finder_core
+)
+
+# M1.8c-3 — Shared-trajectory, in-process Lanczos.
+add_executable(
+    state_finder_inprocess_lanczos
+    analysis/inprocess_lanczos.cpp
+)
+
+target_link_libraries(
+    state_finder_inprocess_lanczos
+    PRIVATE
+        state_finder_core
+        LAPACK::LAPACK
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_shared_operators
+        COMMAND
+            state_finder_shared_operators_test
+            80
+            "${CMAKE_CURRENT_BINARY_DIR}/shared_operator_test.txt"
+    )
+endif()

@@ -2,6 +2,7 @@
 
 #include "state_finder/forward_model.hpp"
 #include "state_finder/scaled_initial_state.hpp"
+#include "state_finder/trajectory.hpp"
 
 #include <vector>
 
@@ -27,6 +28,15 @@ struct TangentLinearResult {
 TangentLinearResult evaluate_tangent_linear(
     const ForwardConfiguration& configuration,
     const InitialState& initial_state,
+    const std::vector<double>& scaled_direction,
+    InitialStateScales scales = {});
+
+
+// Propagate using an existing nonlinear reference trajectory.
+// The trajectory must correspond to the supplied configuration.
+TangentLinearResult evaluate_tangent_linear(
+    const ForwardConfiguration& configuration,
+    const Trajectory& trajectory,
     const std::vector<double>& scaled_direction,
     InitialStateScales scales = {});
 

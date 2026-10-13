@@ -2,6 +2,7 @@
 #include "state_finder/adjoint.hpp"
 #include "state_finder/forward_model.hpp"
 #include "state_finder/trajectory.hpp"
+#include "state_finder/steady_state_initializer.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -59,45 +60,11 @@ int main()
             }
         };
 
-        // Same steady-state construction as the
-        // analytic observability benchmark.
-        state_finder::InitialState truth{
-            std::vector<double>(n+1),
-            std::vector<double>(n, 100.0),
-            100.0
-        };
-
-        const auto& par = config.parameters;
-
-        const double mdot = 100.0;
-
-        const double reynolds =
-            mdot*par.diameter/
-            (par.area*par.viscosity);
-
-        const double argument =
-            par.roughness/(3.7*par.diameter) +
-            5.74/std::pow(reynolds, 0.9);
-
-        const double friction =
-            0.25/std::pow(std::log10(argument), 2.0);
-
-        const double coefficient =
-            friction*par.z*par.gas_constant*
-            par.temperature*mdot*mdot/
-            (par.diameter*par.area*par.area);
-
-        for (int i = 0; i <= n; ++i) {
-            const double squared =
-                config.demand.inlet_pressure*
-                config.demand.inlet_pressure -
-                coefficient*i*par.dx;
-
-            require(squared > 0.0,
-                    "Invalid reference pressure");
-
-            truth.pressure[i] = std::sqrt(squared);
-        }
+        // Reuse the authoritative analytical steady-state
+        // initializer rather than duplicating its physics.
+        const auto truth =
+            state_finder::initialize_steady_state(
+                config, 100.0);
 
         const auto trajectory =
             state_finder::record_trajectory(

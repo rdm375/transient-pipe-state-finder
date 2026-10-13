@@ -627,3 +627,20 @@ if(BUILD_TESTING)
         COMMAND state_finder_gauss_newton_operator_test
     )
 endif()
+
+# M2.0e: exact regularization-Hessian preconditioner test.
+add_executable(
+    state_finder_regularization_preconditioner_test
+    tests/cpp/regularization_preconditioner_test.cpp
+)
+
+target_include_directories(
+    state_finder_regularization_preconditioner_test
+    PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+add_test(
+    NAME state_finder_regularization_preconditioner_test
+    COMMAND state_finder_regularization_preconditioner_test
+)

@@ -1,0 +1,113 @@
+PASS four-channel reconstruction input\ninitial_objective=5.3415934241208767
+scaled_directional_adjoint=27.491544182312399
+scaled_directional_fd=27.49154471715087
+scaled_directional_relative_error=1.9454653651096343e-08
+gn_linearizations=10
+gn_pcg_solves=13
+gn_pcg_iterations=1587
+gn_operator_calls=1600
+gn_damping_retries=3
+gn_gradient_fallbacks=0
+gn_max_true_residual_ratio=0.0047461219605221122
+gn_final_damping=0.00390625
+gn_final_forcing_tolerance=6.2868570090895781e-06
+
+optimizer=gn
+method=hybrid
+lambda0=0.0001
+lambda2=0.10000000000000001
+final_observation_objective=6.5171484780653218e-07
+final_zeroth_order_penalty=6.3820076823031867e-06
+final_curvature_penalty=4.6644995200516489e-08
+final_total_objective_check=7.0803675253102358e-06
+
+iteration,objective,scaled_gradient_norm,step
+1,0.0042010616068279966,0.77026107551590295,1
+2,1.1260174278140404e-05,0.012448096129175103,1
+3,8.2294439655652036e-06,0.00027112242676665592,1
+4,8.0123309073880901e-06,9.9082325841401384e-05,1
+5,7.7425062662290221e-06,7.7722800520884836e-05,1
+6,7.4462832866540237e-06,5.7766198577891336e-05,1
+7,7.400566401742844e-06,5.2600409377699116e-05,1
+8,7.3258133770757425e-06,4.7017020784508521e-05,1
+9,7.2176569831682994e-06,3.9524571052738756e-05,1
+10,7.0803675253102358e-06,3.1785779021268847e-05,1
+
+converged=0
+reason=maximum iterations
+iterations=10
+initial_objective=5.3415934241208767
+final_objective=7.0803675253102358e-06
+final_scaled_gradient_norm=3.1785779021268847e-05
+objective_evaluations=21
+gradient_evaluations=11
+rejected_evaluations=0
+initial_pressure_rmse_pa=711.83372808221986
+final_pressure_rmse_pa=24.39901871677608
+initial_flow_rmse_kg_s=0.3522490733346873
+final_flow_rmse_kg_s=0.054427978854906342
+initial_inlet_flow_error_kg_s=0.70000000000000284
+final_inlet_flow_error_kg_s=1.4555468794696935e-06
+
+M1.6d predictive validation
+prediction_method=hybrid
+assimilation_steps=80
+prediction_steps=160
+assimilation_inlet_flow_rmse_kg_s=7.6037294412307092e-05
+assimilation_outlet_pressure_rmse_pa=1.0153843851298119
+prediction_inlet_flow_rmse_kg_s=6.0597357708162568e-07
+prediction_outlet_pressure_rmse_pa=0.0010584496487280235
+prediction_linepack_rmse=0.00040485432157575605
+prediction_linepack_relative_rmse=8.436256777233379e-11
+prediction_final_internal_pressure_rmse_pa=0.00024323626379767844
+prediction_final_internal_flow_rmse_kg_s=1.3882446838320366e-07
+prediction_csv=benchmarks/results-m16d/gn_hybrid_trajectory.csv
+PASS M1.6e full restart parity
+m16e_truth_max_mass_defect=3.7469305436133027e-10
+m16e_recovered_max_mass_defect=2.8274838026476345e-10
+
+M1.6e changed-demand validation
+m16e_method=hybrid
+m16e_scenario=baseline
+m16e_target_flow_kg_s=105
+m16e_inlet_flow_rmse_kg_s=6.1677639583789981e-07
+m16e_outlet_pressure_rmse_pa=0.0010759237350420291
+m16e_linepack_rmse=0.00041171788676823564
+m16e_linepack_relative_rmse=8.5792637379379744e-11
+m16e_final_pressure_rmse_pa=0.00024323626379767844
+m16e_final_flow_rmse_kg_s=1.3882446838320366e-07
+m16e_csv=benchmarks/results-m16e/gn_hybrid_baseline.csv
+m16e_truth_max_mass_defect=2.7045032879868813e-10
+m16e_recovered_max_mass_defect=3.241114043817106e-10
+
+M1.6e changed-demand validation
+m16e_method=hybrid
+m16e_scenario=increased
+m16e_target_flow_kg_s=110
+m16e_inlet_flow_rmse_kg_s=6.1317392505272089e-07
+m16e_outlet_pressure_rmse_pa=0.0010827080441001414
+m16e_linepack_rmse=0.00041323717961461761
+m16e_linepack_relative_rmse=8.6150176898244312e-11
+m16e_final_pressure_rmse_pa=0.00025333851266649994
+m16e_final_flow_rmse_kg_s=1.3862871259636941e-07
+m16e_csv=benchmarks/results-m16e/gn_hybrid_increased.csv
+m16e_truth_max_mass_defect=4.2792858145901391e-10
+m16e_recovered_max_mass_defect=2.7711788419537697e-10
+
+M1.6e changed-demand validation
+m16e_method=hybrid
+m16e_scenario=decreased
+m16e_target_flow_kg_s=100
+m16e_inlet_flow_rmse_kg_s=6.2058382473414613e-07
+m16e_outlet_pressure_rmse_pa=0.0010689948727773469
+m16e_linepack_rmse=0.00041014964683356485
+m16e_linepack_relative_rmse=8.5425609500005918e-11
+m16e_final_pressure_rmse_pa=0.00023268995663827498
+m16e_final_flow_rmse_kg_s=1.389181856959388e-07
+m16e_csv=benchmarks/results-m16e/gn_hybrid_decreased.csv
+PASS M1.6e changed-demand validation
+PASS M1.6d predictive validation
+PASS M1.6c regularized pipeline reconstruction
+real 9.10
+user 9.09
+sys 0.00

@@ -1,0 +1,105 @@
+PASS four-channel reconstruction input\ninitial_objective=5.3415934241208767
+scaled_directional_adjoint=27.491544182312399
+scaled_directional_fd=27.49154471715087
+scaled_directional_relative_error=1.9454653651096343e-08
+
+optimizer=lbfgs
+method=hybrid
+lambda0=0.0001
+lambda2=0.10000000000000001
+final_observation_objective=0.01384177710080876
+final_zeroth_order_penalty=5.2831771050682212e-07
+final_curvature_penalty=1.9459025735409589e-08
+final_total_objective_check=0.013842324877545003
+
+iteration,objective,scaled_gradient_norm,step
+0,5.3415934241208767,148.16830830987018,0
+1,1.3406990441725317,90.082005422720556,0.00048828125
+2,0.52345181769962068,56.384451824456256,1
+3,0.35005070358615381,28.739911085636233,1
+4,0.2909296466110684,17.025311737967844,1
+5,0.22465758174123901,9.3810794280174896,1
+6,0.1968716729822948,8.9666216132011929,1
+7,0.13268345604084647,8.6519416667167022,1
+8,0.068032367001610417,11.923330926996638,1
+9,0.031844040384186027,7.3204482772339574,1
+10,0.013842324877545003,2.5182203183142819,1
+
+converged=0
+reason=Maximum iterations reached
+iterations=10
+initial_objective=5.3415934241208767
+final_objective=0.013842324877545003
+final_scaled_gradient_norm=2.5182203183142819
+objective_evaluations=32
+gradient_evaluations=11
+rejected_evaluations=0
+initial_pressure_rmse_pa=711.83372808221986
+final_pressure_rmse_pa=198.54080674642569
+initial_flow_rmse_kg_s=0.3522490733346873
+final_flow_rmse_kg_s=0.34999231636868594
+initial_inlet_flow_error_kg_s=0.70000000000000284
+final_inlet_flow_error_kg_s=0.059090572833653709
+
+M1.6d predictive validation
+prediction_method=hybrid
+assimilation_steps=80
+prediction_steps=160
+assimilation_inlet_flow_rmse_kg_s=0.018202330815285921
+assimilation_outlet_pressure_rmse_pa=32.322479770178795
+prediction_inlet_flow_rmse_kg_s=0.0007030273011922433
+prediction_outlet_pressure_rmse_pa=1.2320359100747427
+prediction_linepack_rmse=0.47068820310894949
+prediction_linepack_relative_rmse=9.8080873337019672e-08
+prediction_final_internal_pressure_rmse_pa=0.282836330948255
+prediction_final_internal_flow_rmse_kg_s=0.00016142552969321215
+prediction_csv=benchmarks/results-m16d/hybrid_trajectory.csv
+PASS M1.6e full restart parity
+m16e_truth_max_mass_defect=3.7469305436133027e-10
+m16e_recovered_max_mass_defect=3.1341018669195364e-10
+
+M1.6e changed-demand validation
+m16e_method=hybrid
+m16e_scenario=baseline
+m16e_target_flow_kg_s=105
+m16e_inlet_flow_rmse_kg_s=0.00071510241754053081
+m16e_outlet_pressure_rmse_pa=1.2529008294808708
+m16e_linepack_rmse=0.47864349737308859
+m16e_linepack_relative_rmse=9.9738411479905652e-08
+m16e_final_pressure_rmse_pa=0.282836330948255
+m16e_final_flow_rmse_kg_s=0.00016142552969321215
+m16e_csv=benchmarks/results-m16e/hybrid_baseline.csv
+m16e_truth_max_mass_defect=2.7045032879868813e-10
+m16e_recovered_max_mass_defect=3.2535818483836465e-10
+
+M1.6e changed-demand validation
+m16e_method=hybrid
+m16e_scenario=increased
+m16e_target_flow_kg_s=110
+m16e_inlet_flow_rmse_kg_s=0.00071089814686941589
+m16e_outlet_pressure_rmse_pa=1.260801802794512
+m16e_linepack_rmse=0.48041169124337663
+m16e_linepack_relative_rmse=1.0015447357181024e-07
+m16e_final_pressure_rmse_pa=0.29458389436888244
+m16e_final_flow_rmse_kg_s=0.00016119840178711298
+m16e_csv=benchmarks/results-m16e/hybrid_increased.csv
+m16e_truth_max_mass_defect=4.2792858145901391e-10
+m16e_recovered_max_mass_defect=3.0366065217890537e-10
+
+M1.6e changed-demand validation
+m16e_method=hybrid
+m16e_scenario=decreased
+m16e_target_flow_kg_s=100
+m16e_inlet_flow_rmse_kg_s=0.00071954545430829621
+m16e_outlet_pressure_rmse_pa=1.244831050369372
+m16e_linepack_rmse=0.47681842364447707
+m16e_linepack_relative_rmse=9.9311323988998543e-08
+m16e_final_pressure_rmse_pa=0.27057164472335365
+m16e_final_flow_rmse_kg_s=0.00016153373682739332
+m16e_csv=benchmarks/results-m16e/hybrid_decreased.csv
+PASS M1.6e changed-demand validation
+PASS M1.6d predictive validation
+PASS M1.6c regularized pipeline reconstruction
+real 0.30
+user 0.30
+sys 0.00

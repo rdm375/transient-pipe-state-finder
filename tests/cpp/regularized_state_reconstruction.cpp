@@ -1,3 +1,8 @@
+#include "state_finder/gauss_newton_operator.hpp"
+#include "state_finder/gauss_newton_optimizer.hpp"
+#include "state_finder/regularization_preconditioner.hpp"
+#include "state_finder/low_rank_preconditioner.hpp"
+#include "state_finder/trajectory.hpp"
 #include "state_finder/adjoint.hpp"
 #include "state_finder/objective.hpp"
 #include "state_finder/optimizer.hpp"
@@ -12,6 +17,7 @@
 #include <filesystem>
 #include <iomanip>
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -135,15 +141,23 @@ int main(int argc, char** argv)
     try {
         int max_iterations = 30;
 
-        if (argc < 2 || argc > 3)
+        if (argc < 2 || argc > 4)
             throw std::runtime_error(
                 "Usage: regularized_state_reconstruction "
-                "METHOD [MAX_ITERATIONS]");
+                "METHOD [MAX_ITERATIONS] [lbfgs|gn]");
 
         const std::string method = argv[1];
 
-        if (argc == 3)
+        if (argc >= 3)
             max_iterations = std::stoi(argv[2]);
+
+        const std::string optimizer_name =
+            argc == 4 ? argv[3] : "lbfgs";
+
+        require(
+            optimizer_name == "lbfgs" ||
+            optimizer_name == "gn",
+            "Unknown optimizer");
 
         require(
             max_iterations > 0,
@@ -495,11 +509,214 @@ int main(int argc, char** argv)
                 objective,
                 regularizer);
 
-        const auto result =
-            minimize_lbfgs(
+        OptimizationResult result;
+
+        if (optimizer_name == "lbfgs") {
+            result = minimize_lbfgs(
                 regularized_objective,
                 x0,
                 options);
+        }
+        else {
+            GaussNewtonOptions gn_options;
+
+            if (const char* value =
+                    std::getenv("STATE_FINDER_GN_FIXED_FORCING"))
+            {
+                gn_options.adaptive_forcing =
+                    std::string(value) != "1";
+            }
+
+            gn_options.max_iterations =
+                max_iterations;
+
+            gn_options.gradient_tolerance =
+                options.gradient_tolerance;
+
+            gn_options.relative_objective_tolerance =
+                options.relative_objective_tolerance;
+
+            gn_options.max_line_search_steps =
+                options.max_line_search_steps;
+
+            // Build an independent linearization at the
+            // current nonlinear state. Its lifetime must
+            // extend through the complete PCG solve.
+            GaussNewtonDiagnostics gn_diagnostics;
+
+            const char* rank_env =
+                std::getenv("STATE_FINDER_GN_LOWRANK");
+
+            const int lowrank =
+                rank_env ? std::stoi(rank_env) : 0;
+
+            if (lowrank < 0 || lowrank > 32)
+                throw std::invalid_argument(
+                    "Low-rank must be between 0 and 32");
+
+            int lowrank_setup_calls = 0;
+            int lowrank_builds = 0;
+
+            const bool use_preconditioner =
+                lowrank > 0 ||
+                std::getenv("STATE_FINDER_GN_PRECONDITIONED") !=
+                    nullptr;
+
+            const GaussNewtonPreconditionerFactory
+                preconditioner_factory =
+                    [&](const LinearOperator& A,
+                        double damping) -> LinearOperator
+                    {
+                        auto base = std::make_shared<
+                            RegularizationPreconditioner>(
+                                regularizer, n, damping);
+
+                        if (lowrank == 0) {
+                            return [base](
+                                const std::vector<double>& rhs)
+                            {
+                                return base->apply(rhs);
+                            };
+                        }
+
+                        auto lr = std::make_shared<
+                            LowRankPreconditioner>(
+                                base,
+                                regularizer,
+                                A,
+                                damping,
+                                2*n+1,
+                                lowrank,
+                                lowrank_setup_calls);
+
+                        ++lowrank_builds;
+
+                        return [lr](
+                            const std::vector<double>& rhs)
+                        {
+                            return lr->apply(rhs);
+                        };
+                    };
+
+            std::cout
+                << "gn_preconditioned="
+                << (use_preconditioner ? 1 : 0)
+                << '\n';
+
+            std::cout
+                << "gn_lowrank="
+                << lowrank << '\n';
+
+            std::vector<double> cached_x;
+            LinearOperator cached_undamped_operator;
+            bool cache_valid = false;
+
+            const GaussNewtonOperatorFactory factory =
+                [&](const std::vector<double>& x,
+                    double damping) -> LinearOperator
+                {
+                    if (!cache_valid || cached_x != x) {
+                        const auto state =
+                            unpack_scaled_state(
+                                x, baseline, scales);
+
+                        auto trajectory =
+                            std::make_shared<Trajectory>(
+                                record_trajectory(config, state));
+
+                        if (trajectory->info != 0 ||
+                            trajectory->completed_steps !=
+                                config.steps)
+                        {
+                            throw std::runtime_error(
+                                "Gauss-Newton trajectory failed");
+                        }
+
+                        auto operator_ptr =
+                            std::make_shared<GaussNewtonOperator>(
+                                config,
+                                *trajectory,
+                                observations,
+                                regularizer,
+                                scales,
+                                0.0);
+
+                        cached_undamped_operator =
+                            [trajectory, operator_ptr](
+                                const std::vector<double>& v)
+                            {
+                                return operator_ptr->apply(v);
+                            };
+
+                        cached_x = x;
+                        cache_valid = true;
+                        ++gn_diagnostics.linearizations;
+                    }
+
+                    // Capture the undamped operator by value.
+                    // Retains trajectory ownership and avoids
+                    // dangling references when the cache changes.
+                    const auto H = cached_undamped_operator;
+
+                    return [H, damping](
+                        const std::vector<double>& v)
+                    {
+                        auto result = H(v);
+
+                        for (std::size_t j = 0;
+                             j < v.size(); ++j)
+                        {
+                            result[j] += damping*v[j];
+                        }
+
+                        return result;
+                    };
+                };
+
+            result = minimize_gauss_newton(
+                regularized_objective,
+                x0,
+                factory,
+                gn_options,
+                &gn_diagnostics,
+                use_preconditioner
+                    ? preconditioner_factory
+                    : GaussNewtonPreconditionerFactory{});
+
+            std::cout
+                << "gn_lowrank_setup_calls="
+                << lowrank_setup_calls << '\n';
+
+            std::cout
+                << "gn_lowrank_builds="
+                << lowrank_builds << '\n';
+
+            std::cout
+                << "gn_total_operator_calls="
+                << gn_diagnostics.operator_calls +
+                   lowrank_setup_calls
+                << '\n';
+
+            std::cout
+                << "gn_linearizations="
+                << gn_diagnostics.linearizations << '\n'
+                << "gn_pcg_solves="
+                << gn_diagnostics.pcg_solves << '\n'
+                << "gn_pcg_iterations="
+                << gn_diagnostics.pcg_iterations << '\n'
+                << "gn_operator_calls="
+                << gn_diagnostics.operator_calls << '\n'
+                << "gn_damping_retries="
+                << gn_diagnostics.damping_retries << '\n'
+                << "gn_gradient_fallbacks="
+                << gn_diagnostics.gradient_fallbacks << '\n'
+                << "gn_max_true_residual_ratio="
+                << gn_diagnostics.maximum_true_residual_ratio << '\n'
+                << "gn_final_damping="
+                << gn_diagnostics.final_damping << '\n'
+                << "gn_final_forcing_tolerance="
+                << gn_diagnostics.final_forcing_tolerance << '\n';
+        }
 
         const auto recovered =
             unpack_scaled_state(
@@ -527,6 +744,7 @@ int main(int argc, char** argv)
             final_penalty.total();
 
         std::cout
+            << "\noptimizer=" << optimizer_name
             << "\nmethod=" << method
             << "\nlambda0=" << lambda0
             << "\nlambda2=" << lambda2
@@ -643,6 +861,369 @@ int main(int argc, char** argv)
             prediction_recovered.info == 0 &&
             prediction_recovered.completed_steps == prediction_steps,
             "Extended reconstructed simulation failed");
+
+
+        // --------------------------------------------------
+        // M2.1a: Initial-state reconstruction validation.
+        //
+        // Compare the actual recovered state with the known
+        // synthetic truth, not merely the observation fit.
+        //
+        // The inlet pressure is prescribed and therefore
+        // excluded from the optimized pressure coordinates.
+        // --------------------------------------------------
+
+        const auto candidate_forward =
+            evaluate_forward(config, candidate);
+
+        require(
+            candidate_forward.info == 0 &&
+            candidate_forward.completed_steps == steps,
+            "M2.1a candidate forward simulation failed");
+
+        require(
+            !reference.linepack.empty() &&
+            !candidate_forward.linepack.empty() &&
+            !prediction_recovered.linepack.empty(),
+            "M2.1a missing linepack samples");
+
+        const double truth_initial_linepack =
+            reference.linepack.front();
+
+        const double guess_initial_linepack =
+            candidate_forward.linepack.front();
+
+        const double recovered_initial_linepack =
+            prediction_recovered.linepack.front();
+
+        const double guess_linepack_error =
+            guess_initial_linepack - truth_initial_linepack;
+
+        const double recovered_linepack_error =
+            recovered_initial_linepack -
+            truth_initial_linepack;
+
+        double guess_pressure_max_error = 0.0;
+        double recovered_pressure_max_error = 0.0;
+
+        double guess_flow_max_error = 0.0;
+        double recovered_flow_max_error = 0.0;
+
+        for (int i = 1; i <= n; ++i) {
+            guess_pressure_max_error = std::max(
+                guess_pressure_max_error,
+                std::abs(
+                    candidate.pressure[i] -
+                    truth.pressure[i]));
+
+            recovered_pressure_max_error = std::max(
+                recovered_pressure_max_error,
+                std::abs(
+                    recovered.pressure[i] -
+                    truth.pressure[i]));
+        }
+
+        for (int i = 0; i < n; ++i) {
+            guess_flow_max_error = std::max(
+                guess_flow_max_error,
+                std::abs(
+                    candidate.flow[i] -
+                    truth.flow[i]));
+
+            recovered_flow_max_error = std::max(
+                recovered_flow_max_error,
+                std::abs(
+                    recovered.flow[i] -
+                    truth.flow[i]));
+        }
+
+        const auto improvement_factor =
+            [](double before, double after) {
+                if (after == 0.0)
+                    return before == 0.0 ? 1.0 : 0.0;
+
+                return before/after;
+            };
+
+        std::filesystem::create_directories(
+            "benchmarks/results-m21");
+
+        const std::string m21_prefix =
+            std::string("benchmarks/results-m21/") +
+            optimizer_name + "_" + method;
+
+        // Spatial profile. Pressure node zero is included
+        // for context, but is a prescribed boundary value.
+        {
+            std::ofstream csv(
+                m21_prefix + "_initial_state.csv");
+
+            require(
+                static_cast<bool>(csv),
+                "Cannot open M2.1a state CSV");
+
+            csv << std::setprecision(17);
+
+            csv
+                << "field,index,x_m,"
+                << "truth,initial_guess,recovered,"
+                << "guess_error,recovered_error\n";
+
+            for (int i = 0; i <= n; ++i) {
+                const double x =
+                    i*config.parameters.dx;
+
+                csv
+                    << "pressure_pa,"
+                    << i << ','
+                    << x << ','
+                    << truth.pressure[i] << ','
+                    << candidate.pressure[i] << ','
+                    << recovered.pressure[i] << ','
+                    << candidate.pressure[i] -
+                       truth.pressure[i] << ','
+                    << recovered.pressure[i] -
+                       truth.pressure[i] << '\n';
+            }
+
+            for (int i = 0; i < n; ++i) {
+                const double x =
+                    (i+0.5)*config.parameters.dx;
+
+                csv
+                    << "flow_kg_s,"
+                    << i << ','
+                    << x << ','
+                    << truth.flow[i] << ','
+                    << candidate.flow[i] << ','
+                    << recovered.flow[i] << ','
+                    << candidate.flow[i] -
+                       truth.flow[i] << ','
+                    << recovered.flow[i] -
+                       truth.flow[i] << '\n';
+            }
+
+            csv
+                << "inlet_flow_kg_s,0,0,"
+                << truth.inlet_flow << ','
+                << candidate.inlet_flow << ','
+                << recovered.inlet_flow << ','
+                << candidate.inlet_flow -
+                   truth.inlet_flow << ','
+                << recovered.inlet_flow -
+                   truth.inlet_flow << '\n';
+
+            csv.close();
+
+            require(
+                static_cast<bool>(csv),
+                "Failed writing M2.1a state CSV");
+        }
+
+        const double pressure_improvement =
+            improvement_factor(
+                initial_errors.pressure_rmse,
+                final_errors.pressure_rmse);
+
+        const double flow_improvement =
+            improvement_factor(
+                initial_errors.flow_rmse,
+                final_errors.flow_rmse);
+
+        const double inlet_flow_improvement =
+            improvement_factor(
+                std::abs(initial_errors.inlet_flow_error),
+                std::abs(final_errors.inlet_flow_error));
+
+        const double linepack_improvement =
+            improvement_factor(
+                std::abs(guess_linepack_error),
+                std::abs(recovered_linepack_error));
+
+        const double relative_linepack_error =
+            std::abs(recovered_linepack_error) /
+            std::max(
+                std::abs(truth_initial_linepack),
+                1.0);
+
+        std::cout
+            << "\nM2.1a initial-state recovery\n"
+            << "m21_state_dimension=" << 2*n+1 << '\n'
+            << "m21_pressure_dofs=" << n << '\n'
+            << "m21_flow_dofs=" << n << '\n'
+            << "m21_inlet_flow_dofs=1\n"
+
+            << "m21_guess_pressure_rmse_pa="
+            << initial_errors.pressure_rmse << '\n'
+
+            << "m21_recovered_pressure_rmse_pa="
+            << final_errors.pressure_rmse << '\n'
+
+            << "m21_pressure_improvement="
+            << pressure_improvement << '\n'
+
+            << "m21_guess_pressure_max_error_pa="
+            << guess_pressure_max_error << '\n'
+
+            << "m21_recovered_pressure_max_error_pa="
+            << recovered_pressure_max_error << '\n'
+
+            << "m21_guess_flow_rmse_kg_s="
+            << initial_errors.flow_rmse << '\n'
+
+            << "m21_recovered_flow_rmse_kg_s="
+            << final_errors.flow_rmse << '\n'
+
+            << "m21_flow_improvement="
+            << flow_improvement << '\n'
+
+            << "m21_guess_flow_max_error_kg_s="
+            << guess_flow_max_error << '\n'
+
+            << "m21_recovered_flow_max_error_kg_s="
+            << recovered_flow_max_error << '\n'
+
+            << "m21_inlet_flow_improvement="
+            << inlet_flow_improvement << '\n'
+
+            << "m21_truth_initial_linepack="
+            << truth_initial_linepack << '\n'
+
+            << "m21_guess_initial_linepack="
+            << guess_initial_linepack << '\n'
+
+            << "m21_recovered_initial_linepack="
+            << recovered_initial_linepack << '\n'
+
+            << "m21_guess_linepack_error="
+            << guess_linepack_error << '\n'
+
+            << "m21_recovered_linepack_error="
+            << recovered_linepack_error << '\n'
+
+            << "m21_linepack_improvement="
+            << linepack_improvement << '\n'
+
+            << "m21_initial_linepack_relative_error="
+            << relative_linepack_error << '\n'
+
+            << "m21_state_csv="
+            << m21_prefix + "_initial_state.csv"
+            << '\n';
+
+        {
+            std::ofstream csv(
+                m21_prefix + "_summary.csv");
+
+            require(
+                static_cast<bool>(csv),
+                "Cannot open M2.1a summary CSV");
+
+            csv << std::setprecision(17);
+
+            csv << "metric,value\n";
+
+            const auto write =
+                [&](const char* name, double value) {
+                    csv << name << ',' << value << '\n';
+                };
+
+            write(
+                "guess_pressure_rmse_pa",
+                initial_errors.pressure_rmse);
+
+            write(
+                "recovered_pressure_rmse_pa",
+                final_errors.pressure_rmse);
+
+            write(
+                "pressure_improvement",
+                pressure_improvement);
+
+            write(
+                "guess_pressure_max_error_pa",
+                guess_pressure_max_error);
+
+            write(
+                "recovered_pressure_max_error_pa",
+                recovered_pressure_max_error);
+
+            write(
+                "guess_flow_rmse_kg_s",
+                initial_errors.flow_rmse);
+
+            write(
+                "recovered_flow_rmse_kg_s",
+                final_errors.flow_rmse);
+
+            write(
+                "flow_improvement",
+                flow_improvement);
+
+            write(
+                "guess_flow_max_error_kg_s",
+                guess_flow_max_error);
+
+            write(
+                "recovered_flow_max_error_kg_s",
+                recovered_flow_max_error);
+
+            write(
+                "inlet_flow_improvement",
+                inlet_flow_improvement);
+
+            write(
+                "truth_initial_linepack",
+                truth_initial_linepack);
+
+            write(
+                "guess_initial_linepack",
+                guess_initial_linepack);
+
+            write(
+                "recovered_initial_linepack",
+                recovered_initial_linepack);
+
+            write(
+                "guess_linepack_error",
+                guess_linepack_error);
+
+            write(
+                "recovered_linepack_error",
+                recovered_linepack_error);
+
+            write(
+                "linepack_improvement",
+                linepack_improvement);
+
+            write(
+                "initial_linepack_relative_error",
+                relative_linepack_error);
+
+            write(
+                "final_objective",
+                result.final_objective);
+
+            write(
+                "final_gradient_norm",
+                result.gradient_norm);
+
+            write(
+                "iterations",
+                result.iterations);
+
+            csv.close();
+
+            require(
+                static_cast<bool>(csv),
+                "Failed writing M2.1a summary CSV");
+        }
+
+        require(
+            std::isfinite(pressure_improvement) &&
+            std::isfinite(flow_improvement) &&
+            std::isfinite(relative_linepack_error),
+            "Nonfinite M2.1a reconstruction diagnostics");
 
         const std::size_t expected_samples =
             static_cast<std::size_t>(prediction_steps + 1);
@@ -778,8 +1359,8 @@ int main(int argc, char** argv)
             "benchmarks/results-m16d");
 
         const std::string csv_path =
-            "benchmarks/results-m16d/" +
-            method + "_trajectory.csv";
+            std::string("benchmarks/results-m16d/") +
+            (optimizer_name == "gn" ? "gn_" : "") + method + "_trajectory.csv";
 
         std::ofstream csv(csv_path);
 
@@ -942,8 +1523,8 @@ int main(int argc, char** argv)
             const double dt = config.parameters.dt;
 
             const std::string csv_path =
-                "benchmarks/results-m16e/" +
-                method + "_" +
+                std::string("benchmarks/results-m16e/") +
+                (optimizer_name == "gn" ? "gn_" : "") + method + "_" +
                 scenario.name + ".csv";
 
             std::ofstream csv(csv_path);

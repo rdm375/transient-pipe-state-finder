@@ -1,0 +1,118 @@
+PASS four-channel reconstruction input\ninitial_objective=5.3415934241208767
+scaled_directional_adjoint=27.491544182312399
+scaled_directional_fd=27.49154471715087
+scaled_directional_relative_error=1.9454653651096343e-08
+gn_preconditioned=1
+gn_lowrank=16
+gn_lowrank_setup_calls=320
+gn_lowrank_builds=10
+gn_total_operator_calls=618
+gn_linearizations=10
+gn_pcg_solves=10
+gn_pcg_iterations=288
+gn_operator_calls=298
+gn_damping_retries=0
+gn_gradient_fallbacks=0
+gn_max_true_residual_ratio=0.0037545224532499633
+gn_final_damping=0.001
+gn_final_forcing_tolerance=6.6329738094254808e-06
+
+optimizer=gn
+method=hybrid
+lambda0=0.0001
+lambda2=0.10000000000000001
+final_observation_objective=6.4819762995776238e-08
+final_zeroth_order_penalty=6.5485345735850812e-06
+final_curvature_penalty=1.0290329960593806e-08
+final_total_objective_check=6.623644666541451e-06
+
+iteration,objective,scaled_gradient_norm,step
+1,0.018426083091030134,3.7038283572709623,1
+2,0.0019568711927209128,2.6876614685468798,1
+3,2.8299500188973033e-05,0.1640409401602578,1
+4,8.9856808840941857e-06,0.030676954166799292,1
+5,7.2090607291666261e-06,0.0066928350617477678,1
+6,6.8047102931656494e-06,0.0017223197783212431,1
+7,6.6848623876081368e-06,0.00048564306976577385,1
+8,6.6447993076138147e-06,0.0001439459142144745,1
+9,6.6298861215583995e-06,4.399634155652438e-05,1
+10,6.623644666541451e-06,1.3802889535757566e-05,1
+
+converged=0
+reason=maximum iterations
+iterations=10
+initial_objective=5.3415934241208767
+final_objective=6.623644666541451e-06
+final_scaled_gradient_norm=1.3802889535757566e-05
+objective_evaluations=21
+gradient_evaluations=11
+rejected_evaluations=0
+initial_pressure_rmse_pa=711.83372808221986
+final_pressure_rmse_pa=19.568124162484132
+initial_flow_rmse_kg_s=0.3522490733346873
+final_flow_rmse_kg_s=0.023663718593284117
+initial_inlet_flow_error_kg_s=0.70000000000000284
+final_inlet_flow_error_kg_s=1.0443428806183874e-06
+
+M1.6d predictive validation
+prediction_method=hybrid
+assimilation_steps=80
+prediction_steps=160
+assimilation_inlet_flow_rmse_kg_s=2.7142046570600575e-05
+assimilation_outlet_pressure_rmse_pa=0.29390428427699061
+prediction_inlet_flow_rmse_kg_s=1.3199866630934782e-06
+prediction_outlet_pressure_rmse_pa=0.002314405819749937
+prediction_linepack_rmse=0.00088403283577681471
+prediction_linepack_relative_rmse=1.8421263167184626e-10
+prediction_final_internal_pressure_rmse_pa=0.00053122536777168276
+prediction_final_internal_flow_rmse_kg_s=3.0319094941261024e-07
+prediction_csv=benchmarks/results-m16d/gn_hybrid_trajectory.csv
+PASS M1.6e full restart parity
+m16e_truth_max_mass_defect=3.7469305436133027e-10
+m16e_recovered_max_mass_defect=2.8598778900601474e-10
+
+M1.6e changed-demand validation
+m16e_method=hybrid
+m16e_scenario=baseline
+m16e_target_flow_kg_s=105
+m16e_inlet_flow_rmse_kg_s=1.3424887060617741e-06
+m16e_outlet_pressure_rmse_pa=0.0023537442472269035
+m16e_linepack_rmse=0.00089896719268719668
+m16e_linepack_relative_rmse=1.8732430350199178e-10
+m16e_final_pressure_rmse_pa=0.00053122536777168276
+m16e_final_flow_rmse_kg_s=3.0319094941261024e-07
+m16e_csv=benchmarks/results-m16e/gn_hybrid_baseline.csv
+m16e_truth_max_mass_defect=2.7045032879868813e-10
+m16e_recovered_max_mass_defect=3.8841552196799967e-10
+
+M1.6e changed-demand validation
+m16e_method=hybrid
+m16e_scenario=increased
+m16e_target_flow_kg_s=110
+m16e_inlet_flow_rmse_kg_s=1.3345874762412142e-06
+m16e_outlet_pressure_rmse_pa=0.0023685871667502214
+m16e_linepack_rmse=0.00090228826492419869
+m16e_linepack_relative_rmse=1.8810575976954031e-10
+m16e_final_pressure_rmse_pa=0.00055328952755236214
+m16e_final_flow_rmse_kg_s=3.0276432121456175e-07
+m16e_csv=benchmarks/results-m16e/gn_hybrid_increased.csv
+m16e_truth_max_mass_defect=4.2792858145901391e-10
+m16e_recovered_max_mass_defect=3.5931480013573491e-10
+
+M1.6e changed-demand validation
+m16e_method=hybrid
+m16e_scenario=decreased
+m16e_target_flow_kg_s=100
+m16e_inlet_flow_rmse_kg_s=1.3508386535301064e-06
+m16e_outlet_pressure_rmse_pa=0.0023385836603939218
+m16e_linepack_rmse=0.00089553861110172931
+m16e_linepack_relative_rmse=1.865219981895969e-10
+m16e_final_pressure_rmse_pa=0.00050818881298153476
+m16e_final_flow_rmse_kg_s=3.0339371804008378e-07
+m16e_csv=benchmarks/results-m16e/gn_hybrid_decreased.csv
+PASS M1.6e changed-demand validation
+PASS M1.6d predictive validation
+PASS M1.6c regularized pipeline reconstruction
+real 3.63
+user 3.63
+sys 0.00

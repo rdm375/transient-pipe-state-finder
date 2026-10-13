@@ -644,3 +644,18 @@ add_test(
     NAME state_finder_regularization_preconditioner_test
     COMMAND state_finder_regularization_preconditioner_test
 )
+
+# M2.2a — Full information spectrum for the
+# M2.1 synthetic initial-state reconstruction.
+# Deliberately excluded from regular CTest.
+add_executable(
+    state_finder_m22_information_spectrum
+    analysis/m22_information_spectrum.cpp
+)
+
+target_link_libraries(
+    state_finder_m22_information_spectrum
+    PRIVATE
+        state_finder_core
+        LAPACK::LAPACK
+)

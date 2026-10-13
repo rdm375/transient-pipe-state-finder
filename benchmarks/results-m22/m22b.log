@@ -1,0 +1,38 @@
+state_dimension=201
+observation_dimension=162
+maximum_eigenvalue=1.100229521799e+04
+maximum_orthogonality_error=5.551115123126e-15
+
+method=unregularized
+scaled_error_norm=4.399587292280e-02
+linearized_observation_norm=1.186561635621e-04
+information_identity_relative_error=9.264448788015e-08
+threshold=1e-06 rank=26 weak_fraction=0.99998147
+threshold=1e-08 rank=36 weak_fraction=0.99996673
+threshold=1e-10 rank=44 weak_fraction=0.41253083
+threshold=1e-12 rank=50 weak_fraction=0.33615175
+threshold=1e-14 rank=56 weak_fraction=0.32394551
+
+method=tikhonov
+scaled_error_norm=2.458281431491e-02
+linearized_observation_norm=3.712039407004e-04
+information_identity_relative_error=2.630354371204e-11
+threshold=1e-06 rank=26 weak_fraction=0.99913317
+threshold=1e-08 rank=36 weak_fraction=0.60614389
+threshold=1e-10 rank=44 weak_fraction=0.00838855
+threshold=1e-12 rank=50 weak_fraction=0.00331767
+threshold=1e-14 rank=56 weak_fraction=0.00298270
+
+method=hybrid
+scaled_error_norm=2.062181398614e-02
+linearized_observation_norm=3.513654662208e-04
+information_identity_relative_error=1.723213595985e-10
+threshold=1e-06 rank=26 weak_fraction=0.99874150
+threshold=1e-08 rank=36 weak_fraction=0.51247206
+threshold=1e-10 rank=44 weak_fraction=0.08225429
+threshold=1e-12 rank=50 weak_fraction=0.01945888
+threshold=1e-14 rank=56 weak_fraction=0.00087609
+
+summary_csv=benchmarks/results-m22/error_projection_summary.csv
+modal_csv=benchmarks/results-m22/error_projection_modes.csv
+PASS M2.2b error projection

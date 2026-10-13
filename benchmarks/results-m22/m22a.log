@@ -1,0 +1,17 @@
+m22_cells=100
+m22_steps=80
+m22_state_dimension=201
+m22_observation_dimension=162
+m22_structural_nullity_lower_bound=39
+m22_lambda_max=11002.295217989475
+m22_lambda_min=-3.0355616897870415e-12
+m22_relative_eigenvalue_threshold=1e-10
+m22_numerical_rank=44
+m22_numerical_nullity=157
+m22_max_linear_backward_error=5.589842767571182e-17
+m22_spectrum_csv=benchmarks/results-m22/spectrum.csv
+m22_modes_csv=benchmarks/results-m22/eigenvectors.csv
+PASS M2.2a information spectrum
+real 0.38
+user 0.37
+sys 0.00

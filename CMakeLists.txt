@@ -866,6 +866,18 @@ if(BUILD_TESTING)
 endif()
 
 
+# M2.2c-8B — Four-channel joint tangent-linear operator.
+target_sources(state_finder_core PRIVATE src/cpp/joint_tangent_linear.cpp)
+
+add_executable(state_finder_joint_tangent_linear_test
+    tests/cpp/joint_tangent_linear_test.cpp)
+target_link_libraries(state_finder_joint_tangent_linear_test
+    PRIVATE state_finder_core)
+if(BUILD_TESTING)
+    add_test(NAME state_finder_joint_tangent_linear
+             COMMAND state_finder_joint_tangent_linear_test)
+endif()
+
 # M2.2c-7 — Joint convergence study.
 add_executable(
     state_finder_m22c_convergence_study

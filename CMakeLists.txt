@@ -336,3 +336,136 @@ if(BUILD_TESTING)
         COMMAND state_finder_boundary_measurements_test
     )
 endif()
+
+
+# M1.6b — Initial-state numerical observability
+# Excluded from regular CTest: 402 forward integrations.
+add_executable(
+    state_finder_initial_state_observability
+    tests/cpp/initial_state_observability.cpp
+)
+
+target_link_libraries(
+    state_finder_initial_state_observability
+    PRIVATE state_finder_core
+)
+
+
+# M1.6b — Analytic tangent-linear primitives
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/old_state_jvp.cpp
+)
+
+add_executable(
+    state_finder_tangent_primitives_test
+    tests/cpp/tangent_primitives_test.cpp
+)
+
+target_link_libraries(
+    state_finder_tangent_primitives_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_tangent_primitives
+        COMMAND state_finder_tangent_primitives_test
+    )
+endif()
+
+
+# M1.6b — Single-direction discrete tangent-linear propagation
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/tangent_linear.cpp
+)
+
+add_executable(
+    state_finder_tangent_linear_test
+    tests/cpp/tangent_linear_test.cpp
+)
+
+target_link_libraries(
+    state_finder_tangent_linear_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_tangent_linear
+        COMMAND state_finder_tangent_linear_test
+    )
+endif()
+
+
+# M1.6b — Multiple-RHS tangent sensitivity matrix
+target_sources(
+    state_finder_core
+    PRIVATE
+        src/cpp/banded_multi_rhs.cpp
+        src/cpp/tangent_matrix.cpp
+)
+
+add_executable(
+    state_finder_tangent_matrix_test
+    tests/cpp/tangent_matrix_test.cpp
+)
+
+target_link_libraries(
+    state_finder_tangent_matrix_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_tangent_matrix
+        COMMAND state_finder_tangent_matrix_test
+    )
+endif()
+
+
+# M1.6b — Analytic initial-state observability
+# Deliberately excluded from regular CTest.
+add_executable(
+    state_finder_analytic_observability
+    tests/cpp/analytic_initial_state_observability.cpp
+)
+
+target_link_libraries(
+    state_finder_analytic_observability
+    PRIVATE state_finder_core
+)
+
+add_executable(
+    state_finder_quadratic_regularizer_test
+    tests/cpp/quadratic_regularizer_test.cpp
+)
+
+target_link_libraries(
+    state_finder_quadratic_regularizer_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_quadratic_regularizer_test
+        COMMAND state_finder_quadratic_regularizer_test
+    )
+endif()
+add_executable(
+    state_finder_regularized_objective_test
+    tests/cpp/regularized_objective_test.cpp
+)
+
+target_link_libraries(
+    state_finder_regularized_objective_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_regularized_objective_test
+        COMMAND state_finder_regularized_objective_test
+    )
+endif()

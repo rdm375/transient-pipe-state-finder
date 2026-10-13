@@ -1,0 +1,17 @@
+columns_completed=20/201
+columns_completed=40/201
+columns_completed=60/201
+columns_completed=80/201
+columns_completed=100/201
+columns_completed=120/201
+columns_completed=140/201
+columns_completed=160/201
+columns_completed=180/201
+columns_completed=200/201
+columns_completed=201/201
+wrote=benchmarks/results-m16b/H_80.csv rows=162 columns=201
+wrote=benchmarks/results-m16b/H_100.csv rows=202 columns=201
+wrote=benchmarks/results-m16b/H_200.csv rows=402 columns=201
+wrote=benchmarks/results-m16b/H_400.csv rows=802 columns=201
+wrote=benchmarks/results-m16b/H_800.csv rows=1602 columns=201
+PASS M1.6b sensitivity construction

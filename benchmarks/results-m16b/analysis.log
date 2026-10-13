@@ -1,0 +1,47 @@
+
+Horizon: 80 steps
+  Matrix: (162, 201)
+  Numerical rank: 162
+  Numerical nullity: 39
+  Largest singular value: 1.04891826e+02
+  Smallest singular value: 0.00000000e+00
+  Condition number: inf
+  Weak direction energy: pressure=0.530540, internal_flow=0.469460, inlet_flow=0.000000
+
+Horizon: 100 steps
+  Matrix: (202, 201)
+  Numerical rank: 201
+  Numerical nullity: 0
+  Largest singular value: 1.04891859e+02
+  Smallest singular value: 3.70711937e-10
+  Condition number: 2.82947076e+11
+  Weak direction energy: pressure=0.437043, internal_flow=0.562957, inlet_flow=0.000000
+
+Horizon: 200 steps
+  Matrix: (402, 201)
+  Numerical rank: 201
+  Numerical nullity: 0
+  Largest singular value: 1.04891881e+02
+  Smallest singular value: 5.91754240e-08
+  Condition number: 1.77255816e+09
+  Weak direction energy: pressure=0.354887, internal_flow=0.645113, inlet_flow=0.000000
+
+Horizon: 400 steps
+  Matrix: (802, 201)
+  Numerical rank: 201
+  Numerical nullity: 0
+  Largest singular value: 1.04891881e+02
+  Smallest singular value: 2.32977201e-07
+  Condition number: 4.50223801e+08
+  Weak direction energy: pressure=0.299450, internal_flow=0.700550, inlet_flow=0.000000
+
+Horizon: 800 steps
+  Matrix: (1602, 201)
+  Numerical rank: 201
+  Numerical nullity: 0
+  Largest singular value: 1.04891881e+02
+  Smallest singular value: 3.75129930e-07
+  Condition number: 2.79614802e+08
+  Weak direction energy: pressure=0.176993, internal_flow=0.823007, inlet_flow=0.000000
+
+Wrote: benchmarks/results-m16b/observability_summary.csv

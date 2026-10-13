@@ -1,0 +1,151 @@
+
+========================================================================
+Finite-difference step: 1e-3
+========================================================================
+N= 80 rank=162 sigma_min=0.000000000e+00 condition=inf
+N=100 rank=201 sigma_min=7.033034172e-12 condition=1.491416880e+13
+N=200 rank=201 sigma_min=7.221562656e-10 condition=1.452481768e+11
+N=400 rank=201 sigma_min=2.521619400e-09 condition=4.159703133e+10
+N=800 rank=201 sigma_min=4.518225199e-09 condition=2.321528401e+10
+
+========================================================================
+Finite-difference step: 1e-4
+========================================================================
+N= 80 rank=162 sigma_min=0.000000000e+00 condition=inf
+N=100 rank=201 sigma_min=3.705498336e-11 condition=2.830708565e+12
+N=200 rank=201 sigma_min=6.704286700e-09 condition=1.564549453e+10
+N=400 rank=201 sigma_min=2.486708525e-08 condition=4.218101160e+09
+N=800 rank=201 sigma_min=4.323432261e-08 condition=2.426125236e+09
+
+========================================================================
+Finite-difference step: 1e-5
+========================================================================
+N= 80 rank=162 sigma_min=0.000000000e+00 condition=inf
+N=100 rank=201 sigma_min=3.707119373e-10 condition=2.829470761e+11
+N=200 rank=201 sigma_min=5.917542404e-08 condition=1.772558162e+09
+N=400 rank=201 sigma_min=2.329772011e-07 condition=4.502238014e+08
+N=800 rank=201 sigma_min=3.751299304e-07 condition=2.796148018e+08
+
+========================================================================
+Finite-difference step: 1e-6
+========================================================================
+N= 80 rank=162 sigma_min=0.000000000e+00 condition=inf
+N=100 rank=201 sigma_min=3.879824553e-09 condition=2.703520663e+10
+N=200 rank=201 sigma_min=5.326763599e-07 condition=1.969148408e+08
+N=400 rank=201 sigma_min=1.976111727e-06 condition=5.307993442e+07
+N=800 rank=201 sigma_min=3.259391137e-06 condition=3.218143404e+07
+
+========================================================================
+Sensitivity matrix convergence
+========================================================================
+
+Horizon 80
+  1e-3 -> 1e-4: relative_Frobenius_difference=3.584577537e-09
+  1e-4 -> 1e-5: relative_Frobenius_difference=3.419404545e-08
+  1e-5 -> 1e-6: relative_Frobenius_difference=3.374883009e-07
+  difference ratios: 0.10483, 0.101319
+
+Horizon 100
+  1e-3 -> 1e-4: relative_Frobenius_difference=3.976749536e-09
+  1e-4 -> 1e-5: relative_Frobenius_difference=3.833753039e-08
+  1e-5 -> 1e-6: relative_Frobenius_difference=3.803230676e-07
+  difference ratios: 0.10373, 0.100803
+
+Horizon 200
+  1e-3 -> 1e-4: relative_Frobenius_difference=5.518600303e-09
+  1e-4 -> 1e-5: relative_Frobenius_difference=5.443899973e-08
+  1e-5 -> 1e-6: relative_Frobenius_difference=5.393525407e-07
+  difference ratios: 0.101372, 0.100934
+
+Horizon 400
+  1e-3 -> 1e-4: relative_Frobenius_difference=6.690107723e-09
+  1e-4 -> 1e-5: relative_Frobenius_difference=6.641076043e-08
+  1e-5 -> 1e-6: relative_Frobenius_difference=6.574354121e-07
+  difference ratios: 0.100738, 0.101015
+
+Horizon 800
+  1e-3 -> 1e-4: relative_Frobenius_difference=8.399629874e-09
+  1e-4 -> 1e-5: relative_Frobenius_difference=8.141925876e-08
+  1e-5 -> 1e-6: relative_Frobenius_difference=7.842366058e-07
+  difference ratios: 0.103165, 0.10382
+
+========================================================================
+Smallest singular-value convergence
+========================================================================
+
+Horizon 80
+  h=1e-3: sigma_min=0.000000000000e+00
+  h=1e-4: sigma_min=0.000000000000e+00
+  h=1e-5: sigma_min=0.000000000000e+00
+  h=1e-6: sigma_min=0.000000000000e+00
+  Structural nullity >= 39; smallest singular value is zero.
+
+Horizon 100
+  h=1e-3: sigma_min=7.033034171719e-12
+  h=1e-4: sigma_min=3.705498335692e-11
+  h=1e-5: sigma_min=3.707119373198e-10
+  h=1e-6: sigma_min=3.879824552853e-09
+  h=1e-3: relative_difference_from_1e-5=9.810283040e-01
+  h=1e-4: relative_difference_from_1e-5=9.000437277e-01
+  h=1e-5: relative_difference_from_1e-5=0.000000000e+00
+  h=1e-6: relative_difference_from_1e-5=9.465874341e+00
+
+Horizon 200
+  h=1e-3: sigma_min=7.221562655740e-10
+  h=1e-4: sigma_min=6.704286699825e-09
+  h=1e-5: sigma_min=5.917542404411e-08
+  h=1e-6: sigma_min=5.326763598513e-07
+  h=1e-3: relative_difference_from_1e-5=9.877963483e-01
+  h=1e-4: relative_difference_from_1e-5=8.867048812e-01
+  h=1e-5: relative_difference_from_1e-5=0.000000000e+00
+  h=1e-6: relative_difference_from_1e-5=8.001648378e+00
+
+Horizon 400
+  h=1e-3: sigma_min=2.521619400225e-09
+  h=1e-4: sigma_min=2.486708524713e-08
+  h=1e-5: sigma_min=2.329772011293e-07
+  h=1e-6: sigma_min=1.976111726746e-06
+  h=1e-3: relative_difference_from_1e-5=9.891765401e-01
+  h=1e-4: relative_difference_from_1e-5=8.932638682e-01
+  h=1e-5: relative_difference_from_1e-5=0.000000000e+00
+  h=1e-6: relative_difference_from_1e-5=7.481996166e+00
+
+Horizon 800
+  h=1e-3: sigma_min=4.518225198746e-09
+  h=1e-4: sigma_min=4.323432260599e-08
+  h=1e-5: sigma_min=3.751299303915e-07
+  h=1e-6: sigma_min=3.259391136857e-06
+  h=1e-3: relative_difference_from_1e-5=9.879555726e-01
+  h=1e-4: relative_difference_from_1e-5=8.847484055e-01
+  h=1e-5: relative_difference_from_1e-5=0.000000000e+00
+  h=1e-6: relative_difference_from_1e-5=7.688699229e+00
+
+========================================================================
+Nested-horizon singular-value monotonicity
+========================================================================
+
+Finite-difference step 1e-3
+   80 -> 100: worst_delta=7.033034172e-12 violations=0
+  100 -> 200: worst_delta=1.892935680e-11 violations=0
+  200 -> 400: worst_delta=4.563358797e-12 violations=0
+  400 -> 800: worst_delta=4.783673457e-14 violations=0
+
+Finite-difference step 1e-4
+   80 -> 100: worst_delta=3.705498336e-11 violations=0
+  100 -> 200: worst_delta=3.402692112e-10 violations=0
+  200 -> 400: worst_delta=6.263984242e-11 violations=0
+  400 -> 800: worst_delta=3.201883203e-13 violations=0
+
+Finite-difference step 1e-5
+   80 -> 100: worst_delta=3.707119373e-10 violations=0
+  100 -> 200: worst_delta=4.324424095e-09 violations=0
+  200 -> 400: worst_delta=3.815327840e-10 violations=0
+  400 -> 800: worst_delta=4.314326674e-13 violations=0
+
+Finite-difference step 1e-6
+   80 -> 100: worst_delta=3.879824553e-09 violations=0
+  100 -> 200: worst_delta=2.630530603e-08 violations=0
+  200 -> 400: worst_delta=2.140390531e-09 violations=0
+  400 -> 800: worst_delta=7.878142583e-12 violations=0
+
+Wrote: benchmarks/results-m16b/fd-sweep/fd_singular_values.csv

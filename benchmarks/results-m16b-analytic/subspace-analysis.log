@@ -1,0 +1,25 @@
+=== EFFECTIVE RANK ===
+steps= 80 ranks=[50, 60, 69, 78] sigma_max=1.048918262687e+02
+steps=100 ranks=[50, 60, 69, 78] sigma_max=1.048918587488e+02
+steps=200 ranks=[50, 60, 69, 78] sigma_max=1.048918808663e+02
+steps=400 ranks=[50, 60, 69, 78] sigma_max=1.048918811311e+02
+steps=800 ranks=[50, 60, 69, 78] sigma_max=1.048918811311e+02
+
+=== OBSERVABLE SUBSPACE COMPARISON ===
+threshold=1e-06 rank80=50 rank800=50 max_angle=5.556210e-02 deg mean_angle=1.148147e-03 deg projector_distance=1.372117e-03
+threshold=1e-08 rank80=60 rank800=60 max_angle=5.226513e-02 deg mean_angle=9.331047e-04 deg projector_distance=1.293225e-03
+threshold=1e-10 rank80=69 rank800=69 max_angle=4.023318e-02 deg mean_angle=5.929874e-04 deg projector_distance=9.931888e-04
+threshold=1e-12 rank80=78 rank800=78 max_angle=1.126554e-01 deg mean_angle=1.525903e-03 deg projector_distance=2.784319e-03
+
+=== 800-STEP MODE STRUCTURE ===
+mode=  1 sigma=1.04892e+02 pressure=0.9939 flow=0.0028 inlet=0.0033 pressure_HF=0.0040 flow_HF=0.0038
+mode=  2 sigma=7.00627e+01 pressure=0.9975 flow=0.0022 inlet=0.0003 pressure_HF=0.0082 flow_HF=0.0121
+mode= 10 sigma=1.02277e+01 pressure=0.6349 flow=0.0025 inlet=0.3627 pressure_HF=0.0603 flow_HF=0.1522
+mode= 30 sigma=6.03046e-02 pressure=0.7318 flow=0.2682 inlet=0.0000 pressure_HF=0.1232 flow_HF=0.1254
+mode= 69 sigma=2.31644e-08 pressure=0.2007 flow=0.7993 inlet=0.0000 pressure_HF=0.3902 flow_HF=0.1305
+mode= 70 sigma=9.40821e-09 pressure=0.7514 flow=0.2486 inlet=0.0000 pressure_HF=0.3056 flow_HF=0.2844
+mode= 80 sigma=3.28017e-11 pressure=0.2732 flow=0.7268 inlet=0.0000 pressure_HF=0.3496 flow_HF=0.2487
+mode=201 sigma=5.02317e-15 pressure=0.4339 flow=0.5661 inlet=0.0000 pressure_HF=0.5478 flow_HF=0.1905
+
+Resolved basis: (201, 69)
+Output directory: benchmarks/results-m16b-analytic/subspace-analysis

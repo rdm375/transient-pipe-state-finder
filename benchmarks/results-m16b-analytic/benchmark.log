@@ -1,0 +1,11 @@
+method=analytic_tangent_matrix
+cells=100
+steps=800
+variables=201
+max_linear_backward_error=5.6720131734093518e-17
+horizon=80 rows=162 columns=201 file=benchmarks/results-m16b-analytic/H_80.csv
+horizon=100 rows=202 columns=201 file=benchmarks/results-m16b-analytic/H_100.csv
+horizon=200 rows=402 columns=201 file=benchmarks/results-m16b-analytic/H_200.csv
+horizon=400 rows=802 columns=201 file=benchmarks/results-m16b-analytic/H_400.csv
+horizon=800 rows=1602 columns=201 file=benchmarks/results-m16b-analytic/H_800.csv
+PASS analytic observability matrices

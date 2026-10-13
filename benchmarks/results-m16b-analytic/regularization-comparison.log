@@ -1,0 +1,44 @@
+Jacobian: (162, 201)
+Effective rank: 69
+Weak-subspace dimension: 132
+
+Best synthetic-truth state recovery by method:
+truth noise method lambda pressure_RMSE_Pa flow_RMSE_kg_s scaled_error
+smooth         0e+00 unregularized     0.0e+00       0.5170     0.000027     0.000058
+smooth         0e+00 tikhonov          1.0e-12       0.0115     0.000005     0.000005
+smooth         0e+00 curvature         1.0e-12       0.0178     0.000011     0.000011
+smooth         0e+00 weak_subspace     1.0e-08       0.0003     0.000000     0.000000
+smooth         1e-04 unregularized     0.0e+00 164443069830.9248 23316702.636590 28532154.738073
+smooth         1e-04 tikhonov          1.0e-04     108.6036     0.026724     0.028846
+smooth         1e-04 curvature         1.0e+01       7.0803     0.005611     0.005655
+smooth         1e-04 weak_subspace     1.0e+02 24285398.3243  4875.686465  5447.028935
+smooth         1e-02 unregularized     0.0e+00 38783936124485.2812 5111303746.463040 6416179782.525476
+smooth         1e-02 tikhonov          1.0e-02     588.3663     0.146143     0.157543
+smooth         1e-02 curvature         1.0e+02     185.8622     0.151484     0.152621
+smooth         1e-02 weak_subspace     1.0e-05 2502474359.3670 326960.796835 411736.738535
+oscillatory    0e+00 unregularized     0.0e+00       2.9132     0.000897     0.000943
+oscillatory    0e+00 tikhonov          1.0e-12     396.4423     0.249375     0.252507
+oscillatory    0e+00 curvature         1.0e-12     227.9460     0.113687     0.115949
+oscillatory    0e+00 weak_subspace     1.0e-12     493.9015     0.059470     0.077305
+oscillatory    1e-04 unregularized     0.0e+00 1004601796540.3806 46416846.913701 110665131.697078
+oscillatory    1e-04 tikhonov          1.0e-04    1256.9801     0.281300     0.308106
+oscillatory    1e-04 curvature         1.0e-02    1305.9010     0.285776     0.314200
+oscillatory    1e-04 weak_subspace     1.0e+02 50592555.3723  3254.621924  6015.698667
+oscillatory    1e-02 unregularized     0.0e+00 27480916653007.0312 2630453157.794809 3804115089.774214
+oscillatory    1e-02 tikhonov          1.0e-01    1533.6205     0.284152     0.322899
+oscillatory    1e-02 curvature         1.0e+02    1599.3016     0.353912     0.388372
+oscillatory    1e-02 weak_subspace     1.0e+00 2866109315.1305 199809.646878 349384.775066
+localized      0e+00 unregularized     0.0e+00       0.0284     0.000006     0.000007
+localized      0e+00 tikhonov          1.0e-12       0.2539     0.000040     0.000047
+localized      0e+00 curvature         1.0e-12       0.0250     0.000009     0.000010
+localized      0e+00 weak_subspace     1.0e-12       0.0292     0.000005     0.000006
+localized      1e-04 unregularized     0.0e+00 433239380954.1390 32827853.971795 54356523.145698
+localized      1e-04 tikhonov          1.0e-05     130.5392     0.016602     0.021119
+localized      1e-04 curvature         1.0e-01      30.2168     0.009782     0.010238
+localized      1e-04 weak_subspace     1.0e-04 54488411.9249  2916.648986  6180.348829
+localized      1e-02 unregularized     0.0e+00 36756881059606.6641 2948045120.347788 4711863016.250274
+localized      1e-02 tikhonov          1.0e-01     437.2505     0.141234     0.147849
+localized      1e-02 curvature         1.0e+02     297.7743     0.222453     0.224437
+localized      1e-02 weak_subspace     1.0e+01 3797574918.8990 473671.185828 607108.017515
+
+Wrote benchmarks/results-m16b-analytic/regularization-comparison/results.csv

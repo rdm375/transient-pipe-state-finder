@@ -24,4 +24,17 @@ TransposeSolveResult solve_transposed_banded(
     int ku,
     std::span<const double> rhs);
 
+
+// Solve A*x = b using LAPACK band storage.
+// Neither the input matrix nor RHS is modified.
+using BandedSolveResult = TransposeSolveResult;
+
+BandedSolveResult solve_banded(
+    int n,
+    std::span<const double> ab,
+    int ldab,
+    int kl,
+    int ku,
+    std::span<const double> rhs);
+
 } // namespace state_finder

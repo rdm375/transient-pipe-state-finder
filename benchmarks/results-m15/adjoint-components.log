@@ -1,0 +1,15 @@
+include_initial=0 variable=0 analytic_scaled=120.4190019287999 best_relative_error=6.993493118100441e-10 best_step=3e-05
+include_initial=0 variable=5 analytic_scaled=68.96709228489894 best_relative_error=1.615071872623371e-10 best_step=3e-05
+include_initial=0 variable=9 analytic_scaled=28.02863627427995 best_relative_error=1.656896430964468e-09 best_step=3e-05
+include_initial=0 variable=10 analytic_scaled=-4.547812197616565 best_relative_error=4.923447176501755e-09 best_step=0.0003
+include_initial=0 variable=15 analytic_scaled=-1.650521401471918 best_relative_error=1.810779130460841e-09 best_step=0.001
+include_initial=0 variable=19 analytic_scaled=-0.1504624860330456 best_relative_error=9.508699383431463e-10 best_step=0.001
+include_initial=0 variable=20 analytic_scaled=9.469421003341479 best_relative_error=3.601703980047966e-14 best_step=0.01
+include_initial=1 variable=0 analytic_scaled=120.4190019287999 best_relative_error=6.99410795921256e-10 best_step=3e-05
+include_initial=1 variable=5 analytic_scaled=68.96709228489894 best_relative_error=1.613998338121433e-10 best_step=3e-05
+include_initial=1 variable=9 analytic_scaled=27.7634401284083 best_relative_error=1.672944341003362e-09 best_step=3e-05
+include_initial=1 variable=10 analytic_scaled=-4.547812197616565 best_relative_error=4.923447176501755e-09 best_step=0.0003
+include_initial=1 variable=15 analytic_scaled=-1.650521401471918 best_relative_error=1.810779130460841e-09 best_step=0.001
+include_initial=1 variable=19 analytic_scaled=-0.1504624860330456 best_relative_error=9.508699383431463e-10 best_step=0.001
+include_initial=1 variable=20 analytic_scaled=16.46942100334151 best_relative_error=4.486887821014319e-14 best_step=0.01
+PASS componentwise adjoint verification

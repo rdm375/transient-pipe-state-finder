@@ -221,3 +221,37 @@ if(BUILD_TESTING)
         COMMAND state_finder_adjoint_gradient_test
     )
 endif()
+
+
+# M1.5 numerical verification
+add_executable(
+    state_finder_high_precision_physics_test
+    tests/cpp/high_precision_physics_test.cpp
+)
+
+target_link_libraries(
+    state_finder_high_precision_physics_test
+    PRIVATE state_finder_core
+)
+
+add_executable(
+    state_finder_adjoint_components_test
+    tests/cpp/adjoint_components_test.cpp
+)
+
+target_link_libraries(
+    state_finder_adjoint_components_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_high_precision_physics
+        COMMAND state_finder_high_precision_physics_test
+    )
+
+    add_test(
+        NAME state_finder_adjoint_components
+        COMMAND state_finder_adjoint_components_test
+    )
+endif()

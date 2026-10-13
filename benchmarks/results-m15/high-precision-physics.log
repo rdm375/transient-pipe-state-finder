@@ -1,0 +1,25 @@
+flow=-150 quantity=source relative_error=1.700854353114088e-16
+flow=-150 quantity=dS/dm relative_error=5.483712638260352e-17
+flow=-150 quantity=dS/dp relative_error=1.480271741220747e-16
+flow=-100 quantity=source relative_error=1.42444633608536e-16
+flow=-100 quantity=dS/dm relative_error=1.276416083378315e-16
+flow=-100 quantity=dS/dp relative_error=9.59080553070823e-17
+flow=-10 quantity=source relative_error=1.688748088356762e-16
+flow=-10 quantity=dS/dm relative_error=1.225921223073508e-16
+flow=-10 quantity=dS/dp relative_error=2.697277835656381e-16
+flow=-1 quantity=source relative_error=7.867222320608266e-17
+flow=-1 quantity=dS/dm relative_error=1.835157600807386e-17
+flow=-1 quantity=dS/dp relative_error=1.17758854343228e-16
+flow=1 quantity=source relative_error=7.867222320608266e-17
+flow=1 quantity=dS/dm relative_error=1.835157600807386e-17
+flow=1 quantity=dS/dp relative_error=1.17758854343228e-16
+flow=10 quantity=source relative_error=1.688748088356762e-16
+flow=10 quantity=dS/dm relative_error=1.225921223073508e-16
+flow=10 quantity=dS/dp relative_error=2.697277835656381e-16
+flow=100 quantity=source relative_error=1.42444633608536e-16
+flow=100 quantity=dS/dm relative_error=1.276416083378315e-16
+flow=100 quantity=dS/dp relative_error=9.59080553070823e-17
+flow=150 quantity=source relative_error=1.700854353114088e-16
+flow=150 quantity=dS/dm relative_error=5.483712638260352e-17
+flow=150 quantity=dS/dp relative_error=1.480271741220747e-16
+PASS high-precision physics derivatives

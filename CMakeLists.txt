@@ -76,3 +76,43 @@ if(BUILD_TESTING)
         COMMAND pipe_state_finder_parity
     )
 endif()
+
+
+# State-finder objective library
+add_library(state_finder_core STATIC
+    src/cpp/forward_model.cpp
+    src/cpp/objective.cpp
+)
+
+target_compile_features(
+    state_finder_core
+    PUBLIC cxx_std_20
+)
+
+target_include_directories(
+    state_finder_core
+    PUBLIC
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
+)
+
+target_link_libraries(
+    state_finder_core
+    PUBLIC pipe_sim_cpp_core
+)
+
+add_executable(
+    state_finder_objective_test
+    tests/cpp/objective_test.cpp
+)
+
+target_link_libraries(
+    state_finder_objective_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_objective
+        COMMAND state_finder_objective_test
+    )
+endif()

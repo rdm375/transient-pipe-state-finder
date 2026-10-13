@@ -171,3 +171,53 @@ if(BUILD_TESTING)
         COMMAND state_finder_transpose_solver_test
     )
 endif()
+
+
+# Analytic old-state residual VJP
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/old_state_vjp.cpp
+)
+
+add_executable(
+    state_finder_old_state_vjp_test
+    tests/cpp/old_state_vjp_test.cpp
+)
+
+target_link_libraries(
+    state_finder_old_state_vjp_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_old_state_vjp
+        COMMAND state_finder_old_state_vjp_test
+    )
+endif()
+
+
+# Complete discrete adjoint
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/adjoint.cpp
+)
+
+
+# End-to-end adjoint gradient verification
+add_executable(
+    state_finder_adjoint_gradient_test
+    tests/cpp/adjoint_gradient_test.cpp
+)
+
+target_link_libraries(
+    state_finder_adjoint_gradient_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_adjoint_gradient
+        COMMAND state_finder_adjoint_gradient_test
+    )
+endif()

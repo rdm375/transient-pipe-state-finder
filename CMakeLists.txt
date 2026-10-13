@@ -815,7 +815,9 @@ endif()
 # M2.2c-6B — Joint discrete adjoint.
 target_sources(
     state_finder_core
-    PRIVATE src/cpp/joint_adjoint.cpp
+    PRIVATE
+        src/cpp/joint_trajectory.cpp
+        src/cpp/joint_adjoint.cpp
 )
 
 

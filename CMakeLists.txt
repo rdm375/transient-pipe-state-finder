@@ -659,3 +659,218 @@ target_link_libraries(
         state_finder_core
         LAPACK::LAPACK
 )
+
+
+# M2.2c — Full four-channel measurement objective.
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/four_channel_objective.cpp
+)
+
+add_executable(
+    state_finder_four_channel_objective_test
+    tests/cpp/four_channel_objective_test.cpp
+)
+
+target_link_libraries(
+    state_finder_four_channel_objective_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_four_channel_objective
+        COMMAND state_finder_four_channel_objective_test
+    )
+endif()
+
+
+# M2.2c — Adjustable boundary-history integration.
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/boundary_history_integrator.cpp
+)
+
+add_executable(
+    state_finder_boundary_history_integrator_test
+    tests/cpp/boundary_history_integrator_test.cpp
+)
+
+target_link_libraries(
+    state_finder_boundary_history_integrator_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_boundary_history_integrator
+        COMMAND state_finder_boundary_history_integrator_test
+    )
+endif()
+
+
+# M2.2c — Boundary-history trajectory parity.
+add_executable(
+    state_finder_boundary_history_parity_test
+    tests/cpp/boundary_history_parity_test.cpp
+)
+
+target_link_libraries(
+    state_finder_boundary_history_parity_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_boundary_history_parity
+        COMMAND state_finder_boundary_history_parity_test
+    )
+endif()
+
+
+# M2.2c — Joint four-measurement inverse objective.
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/joint_inverse_objective.cpp
+)
+
+add_executable(
+    state_finder_joint_inverse_objective_test
+    tests/cpp/joint_inverse_objective_test.cpp
+)
+
+target_link_libraries(
+    state_finder_joint_inverse_objective_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_joint_inverse_objective
+        COMMAND state_finder_joint_inverse_objective_test
+    )
+endif()
+
+
+# M2.2c — Scaled joint four-measurement inverse problem.
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/joint_scaled_problem.cpp
+)
+
+add_executable(
+    state_finder_joint_scaled_problem_test
+    tests/cpp/joint_scaled_problem_test.cpp
+)
+
+target_link_libraries(
+    state_finder_joint_scaled_problem_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_joint_scaled_problem
+        COMMAND state_finder_joint_scaled_problem_test
+    )
+endif()
+
+
+# M2.2c — Joint reconstruction benchmark.
+add_executable(
+    state_finder_m22c_joint_reconstruction
+    benchmarks/m22c_joint_reconstruction.cpp
+)
+
+target_link_libraries(
+    state_finder_m22c_joint_reconstruction
+    PRIVATE state_finder_core
+)
+
+
+# M2.2c-6A — Boundary residual derivatives.
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/boundary_derivatives.cpp
+)
+
+add_executable(
+    state_finder_boundary_derivatives_test
+    tests/cpp/boundary_derivatives_test.cpp
+)
+
+target_link_libraries(
+    state_finder_boundary_derivatives_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_boundary_derivatives
+        COMMAND state_finder_boundary_derivatives_test
+    )
+endif()
+
+
+# M2.2c-6B — Joint discrete adjoint.
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/joint_adjoint.cpp
+)
+
+
+# M2.2c-6B — Joint adjoint validation.
+add_executable(
+    state_finder_joint_adjoint_test
+    tests/cpp/joint_adjoint_test.cpp
+)
+
+target_link_libraries(
+    state_finder_joint_adjoint_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_joint_adjoint
+        COMMAND state_finder_joint_adjoint_test
+    )
+endif()
+
+
+# M2.2c-6C — Analytic joint regularization gradient.
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/joint_regularization_gradient.cpp
+)
+
+
+# M2.2c-6C — Joint optimizer gradient test.
+add_executable(
+    state_finder_joint_optimizer_gradient_test
+    tests/cpp/joint_optimizer_gradient_test.cpp
+)
+
+target_link_libraries(
+    state_finder_joint_optimizer_gradient_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_joint_optimizer_gradient
+        COMMAND state_finder_joint_optimizer_gradient_test
+    )
+endif()
+
+
+# M2.2c-7 — Joint convergence study.
+add_executable(
+    state_finder_m22c_convergence_study
+    benchmarks/m22c_convergence_study.cpp
+)
+
+target_link_libraries(
+    state_finder_m22c_convergence_study
+    PRIVATE state_finder_core
+)

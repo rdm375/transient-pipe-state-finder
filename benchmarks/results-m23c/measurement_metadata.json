@@ -1,0 +1,22 @@
+{
+  "experiment": "M2.3-C",
+  "description": "Synthetic boundary measurements",
+  "reference": "benchmarks/results-m23a/reference_boundary.csv",
+  "sample_count": 61,
+  "sampling_interval_s": 10,
+  "duration_s": 600,
+  "random_seed": 20261013,
+  "random_engine": "std::mt19937_64",
+  "normal_distribution": "std::normal_distribution<double>",
+  "noise_model": "independent Gaussian",
+  "inlet_flow_sigma_kg_s": 0.10000000000000001,
+  "outlet_pressure_sigma_Pa": 1000,
+  "known_controls": [
+    "inlet_pressure",
+    "outlet_mass_flow"
+  ],
+  "observed_channels": [
+    "inlet_mass_flow",
+    "outlet_pressure"
+  ]
+}

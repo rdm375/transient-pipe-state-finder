@@ -998,3 +998,14 @@ if(BUILD_TESTING)
         COMMAND state_finder_steady_state_initializer_test
     )
 endif()
+
+# M2.3-C: Reproducible synthetic boundary measurements.
+add_executable(
+    state_finder_m23c_measurements
+    apps/m23c_generate_measurements.cpp
+)
+
+target_compile_features(
+    state_finder_m23c_measurements
+    PRIVATE cxx_std_17
+)

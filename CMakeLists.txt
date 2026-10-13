@@ -907,3 +907,22 @@ if(BUILD_TESTING)
         COMMAND state_finder_joint_observation_adjoint_test
     )
 endif()
+
+
+# M2.2c-8D — Joint matrix-free Gauss-Newton operator.
+add_executable(
+    state_finder_joint_gauss_newton_operator_test
+    tests/cpp/joint_gauss_newton_operator_test.cpp
+)
+
+target_link_libraries(
+    state_finder_joint_gauss_newton_operator_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_joint_gauss_newton_operator
+        COMMAND state_finder_joint_gauss_newton_operator_test
+    )
+endif()

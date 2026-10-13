@@ -28,7 +28,7 @@ Trajectory record_trajectory(
     const int n = configuration.n;
     const int steps = configuration.steps;
 
-    if (n < 2 || n > 100 || steps < 0)
+    if (n < 2 || steps < 0)
         throw std::invalid_argument("Invalid trajectory dimensions");
 
     if (initial_state.pressure.size() !=

@@ -22,9 +22,8 @@ namespace {
 
 using namespace state_finder;
 
-constexpr int n = 100;
+int n = 100;
 constexpr int steps = 800;
-constexpr int dimension = 2*n + 1;
 
 void require(bool condition, const char* message)
 {
@@ -110,37 +109,6 @@ InitialState reference_state(
     }
 
     return state;
-}
-
-std::vector<double> read_direction(
-    const std::string& filename)
-{
-    std::ifstream file(filename);
-
-    require(
-        static_cast<bool>(file),
-        "Cannot open predictive direction"
-    );
-
-    std::vector<double> direction;
-
-    double value;
-
-    while (file >> value)
-        direction.push_back(value);
-
-    require(
-        direction.size() == dimension,
-        "Predictive direction must have 201 entries"
-    );
-
-    for (double x : direction)
-        require(
-            std::isfinite(x),
-            "Nonfinite predictive direction"
-        );
-
-    return direction;
 }
 
 } // namespace
@@ -568,10 +536,17 @@ int main(int argc, char** argv)
 {
     try {
         require(
-            argc == 3,
-            "Usage: executable START_STEP OUTPUT_PREFIX");
+            argc == 3 || argc == 4,
+            "Usage: executable START_STEP OUTPUT_PREFIX [CELLS]");
 
         const int start_step = std::stoi(argv[1]);
+
+        if (argc == 4)
+            n = std::stoi(argv[3]);
+
+        require(
+            n >= 2 && n <= 10000,
+            "Invalid number of cells");
 
         const auto config = configuration();
         const auto initial = reference_state(config);
@@ -611,6 +586,8 @@ int main(int argc, char** argv)
         std::cout
             << "M1.8c-3 in-process Lanczos\n"
             << "start_step=" << start_step << '\n'
+            << "cells=" << n << '\n'
+            << "state_dimension=" << 2*n+1 << '\n'
             << "trajectory_seconds="
             << trajectory_seconds << '\n'
             << "operator_calls=" << op.calls << '\n'

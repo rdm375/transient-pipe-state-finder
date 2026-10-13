@@ -1,7 +1,7 @@
 # Initial-State Observability in a Transient Gas Pipeline
 
-**Status:** Analytical research note and proposed numerical investigation; full observability has **not** yet been demonstrated.  
-**Repository:** `rdm375/transient-pipe-state-finder`  
+**Status:** Analytical research note and proposed numerical investigation; full observability has **not** yet been demonstrated.
+**Repository:** `rdm375/transient-pipe-state-finder`
 **Baseline:** M1.5a (`m1.5a-verified`) and M1.5b (`m1.5b-verified`).
 
 ## Abstract

@@ -280,3 +280,59 @@ target_link_libraries(
     state_finder_observation_windows
     PRIVATE state_finder_core
 )
+
+
+# M1.6a — Reusable L-BFGS optimizer
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/optimizer.cpp
+)
+
+add_executable(
+    state_finder_optimizer_quadratic_test
+    tests/cpp/optimizer_quadratic_test.cpp
+)
+
+target_link_libraries(
+    state_finder_optimizer_quadratic_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_optimizer_quadratic
+        COMMAND state_finder_optimizer_quadratic_test
+    )
+endif()
+
+
+# M1.6a — Pipeline reconstruction
+# Excluded from regular CTest: nonlinear optimization benchmark.
+add_executable(
+    state_finder_inverse_state_reconstruction
+    tests/cpp/inverse_state_reconstruction.cpp
+)
+
+target_link_libraries(
+    state_finder_inverse_state_reconstruction
+    PRIVATE state_finder_core
+)
+
+
+# M1.6a — Four-channel boundary measurements
+add_executable(
+    state_finder_boundary_measurements_test
+    tests/cpp/boundary_measurements_test.cpp
+)
+
+target_link_libraries(
+    state_finder_boundary_measurements_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_boundary_measurements
+        COMMAND state_finder_boundary_measurements_test
+    )
+endif()

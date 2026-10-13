@@ -481,3 +481,55 @@ target_link_libraries(
     state_finder_regularized_reconstruction
     PRIVATE state_finder_core
 )
+
+# M1.7e — Exact discrete modal operator diagnostic.
+# Excluded from regular CTest.
+add_executable(
+    state_finder_discrete_modal_operator
+    analysis/discrete_modal_operator.cpp
+)
+
+target_link_libraries(
+    state_finder_discrete_modal_operator
+    PRIVATE state_finder_core
+)
+
+# M1.7h — Direct one-direction predictive response.
+add_executable(
+    state_finder_direct_predictive_response
+    analysis/direct_predictive_response.cpp
+)
+
+target_link_libraries(
+    state_finder_direct_predictive_response
+    PRIVATE state_finder_core
+)
+
+# M1.8 — Matrix-free tangent/adjoint identity.
+add_executable(
+    state_finder_matrix_free_adjoint_test
+    analysis/matrix_free_adjoint_test.cpp
+)
+
+target_link_libraries(
+    state_finder_matrix_free_adjoint_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_matrix_free_adjoint
+        COMMAND state_finder_matrix_free_adjoint_test
+    )
+endif()
+
+# M1.8b — Matrix-free prior/noise-scaled normal operator.
+add_executable(
+    state_finder_matrix_free_normal_operator
+    analysis/matrix_free_normal_operator.cpp
+)
+
+target_link_libraries(
+    state_finder_matrix_free_normal_operator
+    PRIVATE state_finder_core
+)

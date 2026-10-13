@@ -116,3 +116,58 @@ if(BUILD_TESTING)
         COMMAND state_finder_objective_test
     )
 endif()
+
+
+# State-finder full trajectory recording
+target_sources(
+    state_finder_core
+    PRIVATE src/cpp/trajectory.cpp
+)
+
+add_executable(
+    state_finder_trajectory_parity
+    tests/cpp/trajectory_parity.cpp
+)
+
+target_link_libraries(
+    state_finder_trajectory_parity
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_trajectory_parity
+        COMMAND state_finder_trajectory_parity
+    )
+endif()
+
+
+# State-finder derivative infrastructure
+target_sources(
+    state_finder_core
+    PRIVATE
+        src/cpp/finite_difference.cpp
+        src/cpp/transpose_solver.cpp
+)
+
+target_link_libraries(
+    state_finder_core
+    PUBLIC LAPACK::LAPACK
+)
+
+add_executable(
+    state_finder_transpose_solver_test
+    tests/cpp/transpose_solver_test.cpp
+)
+
+target_link_libraries(
+    state_finder_transpose_solver_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_transpose_solver
+        COMMAND state_finder_transpose_solver_test
+    )
+endif()

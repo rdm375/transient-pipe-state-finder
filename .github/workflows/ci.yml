@@ -1,0 +1,52 @@
+name: StateFinder CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: GCC / Ubuntu 24.04
+    runs-on: ubuntu-24.04
+
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout StateFinder
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            cmake \
+            git \
+            python3 \
+            libblas-dev \
+            liblapack-dev
+
+      - name: Checkout pinned forward solver
+        run: |
+          ./scripts/checkout-forward-solver.sh
+
+      - name: Verify forward-solver revision
+        run: |
+          git -C external/transient-pipe-flow rev-parse HEAD
+          git -C external/transient-pipe-flow status --short
+
+      - name: Configure
+        run: |
+          cmake -S . -B build-ci \
+            -DPIPE_SIM_SOURCE_DIR="$GITHUB_WORKSPACE/external/transient-pipe-flow" \
+            -DBUILD_TESTING=ON \
+            -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: |
+          cmake --build build-ci --parallel 2
+
+      - name: Run tests
+        run: |
+          ctest --test-dir build-ci --output-on-failure

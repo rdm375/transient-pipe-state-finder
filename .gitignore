@@ -24,3 +24,10 @@ results/
 # Local scratch and temporary files
 *.tmp
 *.temp
+
+# Locally checked-out external dependencies
+/external/
+
+# Reproducible builds
+/build-ci/
+/build-reproducible/

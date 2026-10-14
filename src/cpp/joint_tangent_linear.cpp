@@ -58,6 +58,14 @@ JointTangentResult evaluate_joint_tangent_linear(
     }
 
     JointTangentResult result;
+
+    // Record the initial tangent state.
+    result.states.reserve(count*width);
+    result.states.insert(
+        result.states.end(),
+        delta.begin(),
+        delta.end());
+
     auto& y = result.response;
     y.inlet_pressure.resize(count);
     y.inlet_flow.resize(count);
@@ -93,6 +101,13 @@ JointTangentResult evaluate_joint_tangent_linear(
         for (double value : delta)
             if (!std::isfinite(value))
                 throw std::runtime_error("Nonfinite joint tangent state");
+
+        // Preserve the complete tangent trajectory.
+        result.states.insert(
+            result.states.end(),
+            delta.begin(),
+            delta.end());
+
         y.inlet_flow[k] = delta[1];
         y.outlet_pressure[k] = delta[width-1];
         const double tol=1e-8*std::max(1.0, std::abs(y.inlet_pressure[k]));

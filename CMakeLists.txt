@@ -1009,3 +1009,75 @@ target_compile_features(
     state_finder_m23c_measurements
     PRIVATE cxx_std_17
 )
+
+
+# M2.3-E — Four-channel engineering reconstruction.
+add_executable(
+    state_finder_m23e_reconstruction
+    apps/m23e_four_channel_reconstruction.cpp
+)
+
+target_link_libraries(
+    state_finder_m23e_reconstruction
+    PRIVATE state_finder_core
+)
+
+# M2.4: Joint four-channel observability analysis.
+add_executable(
+    state_finder_m24_observability
+    apps/m24_observability.cpp
+)
+
+target_link_libraries(
+    state_finder_m24_observability
+    PRIVATE state_finder_core
+)
+
+# M2.4: Physical decay of weakly observable initial-state modes.
+add_executable(
+    state_finder_m24_mode_decay
+    apps/m24_mode_decay.cpp
+)
+
+target_link_libraries(
+    state_finder_m24_mode_decay
+    PRIVATE state_finder_core
+)
+
+# M2.4-F1: Full-history tangent-linear regression.
+add_executable(
+    state_finder_m24_tangent_history_test
+    tests/m24_tangent_history.cpp
+)
+
+target_link_libraries(
+    state_finder_m24_tangent_history_test
+    PRIVATE state_finder_core
+)
+
+add_test(
+    NAME state_finder_m24_tangent_history
+    COMMAND state_finder_m24_tangent_history_test
+)
+
+# M2.4-F1: Time-dependent operational sensitivity matrices.
+add_executable(
+    state_finder_m24_operational_sensitivity
+    apps/m24_operational_sensitivity.cpp
+)
+
+target_link_libraries(
+    state_finder_m24_operational_sensitivity
+    PRIVATE state_finder_core
+)
+
+# M2.4-F2C: Nonlinear validation of adversarial initial states.
+add_executable(
+    state_finder_m24_adversarial_validation
+    apps/m24_adversarial_validation.cpp
+)
+
+target_link_libraries(
+    state_finder_m24_adversarial_validation
+    PRIVATE state_finder_core
+)

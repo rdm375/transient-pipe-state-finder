@@ -1094,3 +1094,14 @@ target_link_libraries(
     state_finder_m24_nonlinear_feasibility
     PRIVATE state_finder_core
 )
+
+
+# M2.4-F2D: Nonlinear operational uncertainty oracle.
+add_executable(
+    state_finder_m24_f2d_oracle
+    apps/m24_f2d_nonlinear_oracle.cpp
+)
+target_link_libraries(
+    state_finder_m24_f2d_oracle
+    PRIVATE state_finder_core
+)

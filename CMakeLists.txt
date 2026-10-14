@@ -1105,3 +1105,26 @@ target_link_libraries(
     state_finder_m24_f2d_oracle
     PRIVATE state_finder_core
 )
+
+# M2.5-B1: Joint initial-state and boundary-history
+# operational sensitivities.
+add_executable(
+    state_finder_m25_joint_operational_sensitivity
+    apps/m25_joint_operational_sensitivity.cpp
+)
+
+target_link_libraries(
+    state_finder_m25_joint_operational_sensitivity
+    PRIVATE state_finder_core
+)
+
+
+add_executable(
+    state_finder_m25_joint_nonlinear_replay
+    apps/m25_joint_nonlinear_replay.cpp
+)
+
+target_link_libraries(
+    state_finder_m25_joint_nonlinear_replay
+    PRIVATE state_finder_core
+)

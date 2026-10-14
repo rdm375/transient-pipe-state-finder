@@ -1,0 +1,48 @@
+{
+  "experiment": "M2.3-F exact four-channel reconstruction",
+  "channels": [
+    "inlet_pressure",
+    "inlet_flow",
+    "outlet_pressure",
+    "outlet_flow"
+  ],
+  "measurement_count": 244,
+  "optimization": {
+    "measurement_count": 244,
+    "variable_count": 163,
+    "initial_objective": 0,
+    "final_objective": 0,
+    "measurement_objective": 0,
+    "inlet_pressure_objective": 0,
+    "inlet_flow_objective": 0,
+    "outlet_pressure_objective": 0,
+    "outlet_flow_objective": 0,
+    "inlet_pressure_truth_rmse_Pa": 0,
+    "inlet_flow_truth_rmse_kg_s": 0,
+    "outlet_pressure_truth_rmse_Pa": 0,
+    "outlet_flow_truth_rmse_kg_s": 0,
+    "max_mass_defect_kg_s": 3.781330804031313e-11,
+    "cumulative_mass_defect_kg": -3.9130421125577186e-10,
+    "iterations": 0,
+    "gradient_norm": 0,
+    "converged": true,
+    "seconds": 0.002005393,
+    "pcg_iterations": 0,
+    "operator_calls": 0
+  },
+  "boundary_errors": {
+    "inlet_pressure_rmse_Pa": 0.0,
+    "inlet_flow_rmse_kg_s": 0.0,
+    "outlet_pressure_rmse_Pa": 0.0,
+    "outlet_flow_rmse_kg_s": 0.0
+  },
+  "inventory_comparison": {
+    "status": "compared",
+    "inventory_rmse_kg": 0.0,
+    "initial_inventory_error_kg": 0.0,
+    "final_inventory_error_kg": 0.0,
+    "reference_inventory_change_kg": -3978.978080498753,
+    "reconstructed_inventory_change_kg": -3978.978080498753,
+    "inventory_change_error_kg": 0.0
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "experiment": "M2.3-D",
+  "description": "Four-channel noisy boundary measurements",
+  "reference": "benchmarks/results-m23a/reference_boundary.csv",
+  "reference_sha256": "d8992fdfb7eed1a1a287b9c9c062a4bbf20395f0a293abad16ad2b6578c380ce",
+  "sample_count": 61,
+  "sampling_interval_s": 10.0,
+  "duration_s": 600.0,
+  "random_seed": 20261013,
+  "random_engine": "Python random.Random (MT19937)",
+  "normal_distribution": "Python random.gauss",
+  "noise_model": "Independent Gaussian",
+  "noise_standard_deviations": {
+    "inlet_pressure": 1000.0,
+    "inlet_flow": 0.1,
+    "outlet_pressure": 1000.0,
+    "outlet_flow": 0.1
+  },
+  "channels": [
+    "inlet_pressure",
+    "inlet_flow",
+    "outlet_pressure",
+    "outlet_flow"
+  ]
+}

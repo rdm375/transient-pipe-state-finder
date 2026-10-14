@@ -1,0 +1,23 @@
+{
+  "measurement_count": 244,
+  "variable_count": 163,
+  "initial_objective": 4160.7002763448636,
+  "final_objective": 60.905823386536433,
+  "measurement_objective": 60.733620841362836,
+  "inlet_pressure_objective": 33.980712492275117,
+  "inlet_flow_objective": 1.0758848021037066,
+  "outlet_pressure_objective": 25.244491911541349,
+  "outlet_flow_objective": 0.43253163544266104,
+  "inlet_pressure_truth_rmse_Pa": 542.79957236886537,
+  "inlet_flow_truth_rmse_kg_s": 0.10289709618657339,
+  "outlet_pressure_truth_rmse_Pa": 559.5425006139285,
+  "outlet_flow_truth_rmse_kg_s": 0.093412677902687286,
+  "max_mass_defect_kg_s": 3.3073987992793263e-11,
+  "cumulative_mass_defect_kg": -3.2325983903569444e-10,
+  "iterations": 500,
+  "gradient_norm": 0.0032539258128102891,
+  "converged": false,
+  "seconds": 111.792693054,
+  "pcg_iterations": 128036,
+  "operator_calls": 128630
+}

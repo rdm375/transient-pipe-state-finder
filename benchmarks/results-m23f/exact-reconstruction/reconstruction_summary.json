@@ -1,0 +1,23 @@
+{
+  "measurement_count": 244,
+  "variable_count": 163,
+  "initial_objective": 0,
+  "final_objective": 0,
+  "measurement_objective": 0,
+  "inlet_pressure_objective": 0,
+  "inlet_flow_objective": 0,
+  "outlet_pressure_objective": 0,
+  "outlet_flow_objective": 0,
+  "inlet_pressure_truth_rmse_Pa": 0,
+  "inlet_flow_truth_rmse_kg_s": 0,
+  "outlet_pressure_truth_rmse_Pa": 0,
+  "outlet_flow_truth_rmse_kg_s": 0,
+  "max_mass_defect_kg_s": 3.7813308040313132e-11,
+  "cumulative_mass_defect_kg": -3.9130421125577186e-10,
+  "iterations": 0,
+  "gradient_norm": 0,
+  "converged": true,
+  "seconds": 0.0020053929999999998,
+  "pcg_iterations": 0,
+  "operator_calls": 0
+}

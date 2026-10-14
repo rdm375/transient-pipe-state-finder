@@ -1128,3 +1128,131 @@ target_link_libraries(
     state_finder_m25_joint_nonlinear_replay
     PRIVATE state_finder_core
 )
+
+
+# M27 correlated measurement covariance regression test.
+add_executable(
+    state_finder_m27_temporal_covariance_test
+    tests/temporal_measurement_covariance.cpp
+)
+
+target_include_directories(
+    state_finder_m27_temporal_covariance_test
+    PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
+)
+
+target_compile_features(
+    state_finder_m27_temporal_covariance_test
+    PRIVATE cxx_std_20
+)
+
+add_test(
+    NAME state_finder_m27_temporal_covariance
+    COMMAND state_finder_m27_temporal_covariance_test
+)
+
+
+# M27 covariance-weighted Gauss-Newton interface compilation.
+add_executable(
+    state_finder_m27_correlated_operator_compile
+    tests/cpp/m27_correlated_operator_compile.cpp
+)
+
+target_compile_features(
+    state_finder_m27_correlated_operator_compile
+    PRIVATE cxx_std_20
+)
+
+target_link_libraries(
+    state_finder_m27_correlated_operator_compile
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_m27_correlated_operator_compile
+        COMMAND state_finder_m27_correlated_operator_compile
+    )
+endif()
+
+
+# M27 covariance-weighted tangent/adjoint and GN validation.
+add_executable(
+    state_finder_m27_correlated_operator_test
+    tests/cpp/m27_correlated_operator_test.cpp
+)
+
+target_compile_features(
+    state_finder_m27_correlated_operator_test
+    PRIVATE cxx_std_20
+)
+
+target_link_libraries(
+    state_finder_m27_correlated_operator_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_m27_correlated_operator
+        COMMAND state_finder_m27_correlated_operator_test
+    )
+endif()
+
+
+# M27 covariance-weighted nonlinear objective gradient.
+add_executable(
+    state_finder_m27_correlated_objective_gradient_test
+    tests/cpp/m27_correlated_objective_gradient_test.cpp
+)
+
+target_compile_features(
+    state_finder_m27_correlated_objective_gradient_test
+    PRIVATE cxx_std_20
+)
+
+target_link_libraries(
+    state_finder_m27_correlated_objective_gradient_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_m27_correlated_objective_gradient
+        COMMAND state_finder_m27_correlated_objective_gradient_test
+    )
+endif()
+
+
+# M27 native covariance-weighted nonlinear reconstruction.
+add_executable(
+    state_finder_m27_correlated_reconstruction
+    apps/m27_correlated_nonlinear_reconstruction.cpp
+)
+
+target_compile_features(
+    state_finder_m27_correlated_reconstruction
+    PRIVATE cxx_std_20
+)
+
+target_link_libraries(
+    state_finder_m27_correlated_reconstruction
+    PRIVATE state_finder_core
+)
+
+# M27-A6: Nonlinear terminal inventory directional sensitivity.
+add_executable(
+    state_finder_m27_inventory_directional_sensitivity
+    apps/m27_inventory_directional_sensitivity.cpp
+)
+
+target_compile_features(
+    state_finder_m27_inventory_directional_sensitivity
+    PRIVATE cxx_std_20
+)
+
+target_link_libraries(
+    state_finder_m27_inventory_directional_sensitivity
+    PRIVATE state_finder_core
+)

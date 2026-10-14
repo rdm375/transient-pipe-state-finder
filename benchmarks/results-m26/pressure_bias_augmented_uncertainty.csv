@@ -1,0 +1,2 @@
+tau_s,bias_scale_pa,original_sigma_kg,augmented_sigma_kg,amplification,original_condition_number,augmented_condition_number,projected_bias_singular_1,projected_bias_singular_2
+120.0,5000.0,247.11829562516792,245861.30362682336,994.9133996931931,3396550857.232234,3458409690.5053983,0.8232455407296929,0.0015516666385786157

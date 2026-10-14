@@ -121,3 +121,82 @@ The current evidence does not establish the singular spectrum or effective rank 
 - `docs/validation/numerical-assertions.txt`: initial grep-based assertion index (110 matching lines in `tests/cpp`; not an exhaustive assertion count).
 
 **Status:** Numerical verification is well supported for the tested adjoint and tangent-linear calculations and for synthetic optimization behavior. Physical validation and broader inverse-problem identifiability/uncertainty claims remain open.
+
+---
+
+## M2.4: Operational observability and nonlinear uncertainty
+
+### Joint observability
+
+The M2.4 experiment constructs a normalized measurement Jacobian
+for a joint initial-state and boundary-history inverse problem.
+
+The experiment uses:
+
+- 41 initial-state variables.
+- 122 boundary-history variables.
+- 244 normalized measurement residuals.
+- A 244-by-163 joint sensitivity matrix.
+
+Initial-state sensitivity is examined both with fixed boundary
+histories and after projecting out measurement-space directions
+explainable by boundary-history adjustments.
+
+The saved singular-value spectra demonstrate severe conditioning
+of the initial-state inverse problem.
+
+At the analysis script's relative numerical-rank threshold of
+`1e-10`, both reported initial-state operators have full numerical
+column rank.
+
+These spectra establish severe ill-conditioning, not an exact
+initial-state null space.
+
+### Nonlinear operational uncertainty
+
+The M2.4-F2D-5 experiment investigates operational deviations
+produced by nonlinear, measurement-compatible, physically
+admissible initial-state perturbations.
+
+The tested terminal quantities are pressure, flow, and inventory.
+
+| Quantity | Relative exceedance over linear F2B prediction |
+|---|---:|
+| Terminal pressure | 0.2693% |
+| Terminal flow | 0.3854% |
+| Terminal inventory | 0.2768% |
+
+All three witnesses passed the replayed strict-feasibility
+checks, including nonlinear measurement constraints,
+initial-perturbation constraints, pressure positivity,
+and the specified conservation-defect tolerance.
+
+### Computational reproducibility
+
+The nonlinear oracle was rebuilt from committed source using
+the pinned forward-solver revision.
+
+The F2D-5 closure analysis was rerun in an isolated detached
+Git worktree.
+
+All three operational witnesses passed.
+
+The reproduced closure results and perturbation directions
+agreed with the committed reference artifacts within explicit
+numerical tolerances.
+
+See [M2.4-F2D-5 reproduction report](validation/M24_F2D5_REPRODUCTION.md).
+
+### Interpretation and limitations
+
+These results demonstrate feasible nonlinear operational
+deviations exceeding corresponding linearized predictions
+for the tested synthetic scenario.
+
+They do not establish globally maximal deviations,
+independent physical validation, or universally applicable
+operational uncertainty bounds.
+
+The distinction between linearized uncertainty estimates
+and finite-amplitude nonlinear behavior is central to
+interpreting these findings.

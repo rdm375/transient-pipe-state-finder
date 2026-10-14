@@ -220,6 +220,24 @@ Python analysis scripts use dependencies including **NumPy, SciPy, pandas, and M
 
 The development roadmap prioritizes reproducibility, an independently readable mathematical report, regression automation, stable interfaces, and a release process that keeps **research milestones** distinct from **production acceptance**.
 
+## M28 operational forecasting
+
+The M28 research campaign extends reconstructed terminal states
+into operational forecasts using the existing C++ forward solver.
+
+Across two synthetic scenarios, original-estimator inventory
+forecast RMSE decreased by approximately 86% over 1800 seconds.
+Calibration-aware reconstruction reduced forecast RMSE by a
+further 5.5–6.0% in the studied cases.
+
+These results assume known future boundary histories and use
+M27 reconstructions initialized from synthetic truth. They do
+not establish production estimator accuracy.
+
+See [M28 report](docs/M28_OPERATIONAL_FORECAST_REPORT.md)
+and [research roadmap](docs/RESEARCH_ROADMAP.md).
+
+
 ## License
 
 GNU Affero General Public License v3.0 **only** (`AGPL-3.0-only`). No additional linking exception.

@@ -156,10 +156,26 @@ std::vector<double> load_solution(
         x.push_back(value);
     }
 
+    const auto physical_dimension =
+        joint_variable_dimension(n, reconstruction_steps);
+
     require(
-        x.size() == joint_variable_dimension(
-            n, reconstruction_steps),
-        "Expected 163 original reconstruction coordinates");
+        x.size() == physical_dimension ||
+        x.size() == physical_dimension + 2,
+        "Expected 163 original or 165 calibrated coordinates");
+
+    // The calibrated M27 formulation appends two sensor offsets
+    // in kPa. These are measurement-model parameters, not
+    // physical pipeline variables.
+    if (x.size() == physical_dimension + 2) {
+        std::cout << std::setprecision(17)
+            << "calibration_inlet_kpa="
+            << x[physical_dimension] << '\n'
+            << "calibration_outlet_kpa="
+            << x[physical_dimension + 1] << '\n';
+
+        x.resize(physical_dimension);
+    }
 
     return x;
 }

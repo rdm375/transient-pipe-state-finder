@@ -45,7 +45,7 @@ If both boundary outputs are recorded at each of $N+1$ time levels, the number o
 $$
 H_N=\frac{\partial\mathcal Y_N}{\partial\mathbf x_0}
 \in\mathbb R^{2(N+1)\times201},\qquad
-\operatorname{rank}(H_N)\le\min\{2(N+1),201\}.
+\mathrm{rank}(H_N)\le\min\{2(N+1),201\}.
 $$
 
 A **necessary, not sufficient** condition for full local column rank is
@@ -103,7 +103,7 @@ C_0\\C_1\Phi_{1,0}\\\vdots\\C_N\Phi_{N,0}
 \end{bmatrix}.
 $$
 
-For measurement covariance $R=\operatorname{blockdiag}(R_0,\ldots,R_N)$, the discrete information Gramian is
+For measurement covariance $R=\mathrm{blockdiag}(R_0,\ldots,R_N)$, the discrete information Gramian is
 
 $$
 W_N=H_N^TR^{-1}H_N

@@ -57,13 +57,13 @@ Near a candidate \(\bar z\), differentiability gives
 where \(J\in\mathbb R^{m\times n}\) is the Jacobian with respect to scaled state coordinates. Define the whitened Jacobian \(A=\Sigma^{-1/2}J\). Its singular value decomposition is
 
 \[
- A=U\operatorname{diag}(\sigma_1,\ldots,\sigma_r)V^T,
+ A=U\mathrm{diag}(\sigma_1,\ldots,\sigma_r)V^T,
  \qquad \sigma_1\ge\cdots\ge\sigma_r>0.
 \]
 
 A right singular vector associated with a small singular value is a state direction that produces little change in the observations. If \(A v=0\), then that direction is invisible to the *linearized* measurements. A small nonlinear residual therefore does not establish unique recovery of the state.
 
-For the unregularized linearized problem, \(A^TA\) is singular whenever \(\operatorname{rank}(A)<n\). With quadratic regularization, the local normal equations take the form
+For the unregularized linearized problem, \(A^TA\) is singular whenever \(\mathrm{rank}(A)<n\). With quadratic regularization, the local normal equations take the form
 
 \[
  (A^TA+\lambda L^TL)\delta z

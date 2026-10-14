@@ -1,7 +1,7 @@
 # StateFinder: Numerical Verification and Validation Status
 
-**Evidence date:** 2026-10-14  
-**StateFinder revision:** `8cf54de3bdea0ce5f4d145f592d31dd2fade3fbe`  
+**Evidence date:** 2026-10-14
+**StateFinder revision:** `8cf54de3bdea0ce5f4d145f592d31dd2fade3fbe`
 **Forward-solver revision:** `670ac493e4461e678ca66f2254dc3d402df3f312`
 
 ## 1. Scope and terminology
@@ -54,7 +54,7 @@ The acceptance criterion is the **minimum** discrepancy across the tested step s
 | Yes | 2 | 4.470353938673456e-09 |
 | Yes | 3 | 2.149509193995178e-09 |
 
-**Largest minimum discrepancy across six cases:** `4.470353938673456e-09`.  
+**Largest minimum discrepancy across six cases:** `4.470353938673456e-09`.
 **Largest reported adjoint linear-solve backward error:** `1.511743331621529e-16`.
 
 The step-size sweep shows decreasing truncation error followed by a roundoff/solver-noise floor. This is strong evidence for the tested discrete adjoint directional derivatives, but it is not a uniform bound over arbitrary states or scenarios.
@@ -69,7 +69,7 @@ The test covers `n ∈ {2,10,100}`, time-step counts `{0,1,12,80}`, and inclusio
 {\max(1,|D_{\mathrm{TL}}|,|D_{\mathrm{adj}}|)}.
 \]
 
-**Maximum observed discrepancy:** `1.4665870594839092e-15`, against a threshold of `1e-9`.  
+**Maximum observed discrepancy:** `1.4665870594839092e-15`, against a threshold of `1e-9`.
 **Maximum tangent-linear solve backward error:** `7.7095284844124635e-19`, against a threshold of `1e-12`.
 
 The agreement is near floating-point precision in these cases. Because the tangent-linear and adjoint implementations may share modeling assumptions, this agreement is an internal consistency check, complementary to the finite-difference experiment, not an independent physical-model validation.

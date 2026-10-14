@@ -119,19 +119,19 @@ test 34
 34: Test command: /home/redacted/Sync/transient-pipe-state-finder/build-reproducible/state_finder_joint_nonlinear_reconstruction_test
 34: Working Directory: /home/redacted/Sync/transient-pipe-state-finder/build-reproducible
 34: Test timeout computed to be: 1500
-34: 
+34:
 34: CASE regularized
 34: GN initial=0.750746 final=0.000734941 iterations=31 gradient_norm=9.02359e-08 truth_error=0.0208341 seconds=0.211541 converged=1 reason="gradient tolerance" objective_evaluations=63 gradient_evaluations=32 pcg_iterations=1748 operator_calls=1779 damping_retries=0 gradient_fallbacks=0
 34: PCGN initial=0.750746 final=0.000734941 iterations=30 gradient_norm=8.856e-08 truth_error=0.0208327 seconds=0.253666 converged=1 reason="gradient tolerance" objective_evaluations=61 gradient_evaluations=31 pcg_iterations=1905 operator_calls=1935 damping_retries=0 gradient_fallbacks=0
 34: LBFGS initial=0.750746 final=0.000737549 iterations=150 gradient_norm=0.00570827 truth_error=0.0218361 seconds=0.145008 converged=0 reason="Maximum iterations reached" objective_evaluations=332 gradient_evaluations=151 pcg_iterations=0 operator_calls=0 damping_retries=0 gradient_fallbacks=0
 34: pcg_iteration_ratio=1.08982
-34: 
+34:
 34: CASE unregularized
 34: GN initial=0.750746 final=4.74585e-10 iterations=12 gradient_norm=9.62267e-08 truth_error=0.0180444 seconds=0.0667868 converged=1 reason="gradient tolerance" objective_evaluations=25 gradient_evaluations=13 pcg_iterations=525 operator_calls=537 damping_retries=0 gradient_fallbacks=0
 34: PCGN initial=0.750746 final=4.74585e-10 iterations=12 gradient_norm=9.64064e-08 truth_error=0.0180444 seconds=0.0754606 converged=1 reason="gradient tolerance" objective_evaluations=25 gradient_evaluations=13 pcg_iterations=536 operator_calls=548 damping_retries=0 gradient_fallbacks=0
 34: LBFGS initial=0.750746 final=1.10533e-06 iterations=150 gradient_norm=0.00295269 truth_error=0.0208223 seconds=0.114651 converged=0 reason="Maximum iterations reached" objective_evaluations=334 gradient_evaluations=151 pcg_iterations=0 operator_calls=0 damping_retries=0 gradient_fallbacks=0
 34: pcg_iteration_ratio=1.02095
-34: 
+34:
 34: initial_truth_error=0.235714
 34: regularized_GN_truth_error=0.0208341
 34: unregularized_GN_truth_error=0.0180444

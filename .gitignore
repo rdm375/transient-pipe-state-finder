@@ -7,3 +7,20 @@ __pycache__/
 dist/
 build/
 results/
+
+# Temporary editor and backup files
+*~
+*.bak
+*.orig
+*.rej
+*.swp
+*.swo
+*.pre_bounds
+*.pre_f2d3_fix
+
+# Generated execution logs
+*.log
+
+# Local scratch and temporary files
+*.tmp
+*.temp

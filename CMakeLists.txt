@@ -1300,3 +1300,32 @@ target_link_libraries(
     state_finder_m27_calibrated_reconstruction
     PRIVATE state_finder_core
 )
+
+# M28-A1 — Deterministic trajectory continuation.
+add_executable(
+    state_finder_forecast_continuation_test
+    tests/cpp/forecast_continuation_test.cpp
+)
+
+target_link_libraries(
+    state_finder_forecast_continuation_test
+    PRIVATE state_finder_core
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME state_finder_forecast_continuation
+        COMMAND state_finder_forecast_continuation_test
+    )
+endif()
+
+# M28-A2 — Reconstructed-state operational forecasts.
+add_executable(
+    state_finder_m28_forecast
+    apps/m28_forecast_reconstruction.cpp
+)
+
+target_link_libraries(
+    state_finder_m28_forecast
+    PRIVATE state_finder_core
+)

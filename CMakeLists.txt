@@ -1256,3 +1256,47 @@ target_link_libraries(
     state_finder_m27_inventory_directional_sensitivity
     PRIVATE state_finder_core
 )
+
+# M27-B1: pressure calibration observation adapter.
+add_executable(
+    state_finder_m27_pressure_calibration_test
+    tests/cpp/m27_pressure_calibration_test.cpp
+)
+
+target_link_libraries(
+    state_finder_m27_pressure_calibration_test
+    PRIVATE state_finder_core
+)
+
+add_test(
+    NAME state_finder_m27_pressure_calibration_test
+    COMMAND state_finder_m27_pressure_calibration_test
+)
+
+# M27-B2: calibrated nonlinear objective and GN operator.
+add_executable(
+    state_finder_m27_calibrated_joint_test
+    tests/cpp/m27_calibrated_joint_test.cpp
+)
+
+target_link_libraries(
+    state_finder_m27_calibrated_joint_test
+    PRIVATE state_finder_core
+)
+
+add_test(
+    NAME state_finder_m27_calibrated_joint_test
+    COMMAND state_finder_m27_calibrated_joint_test
+)
+
+
+# M27-B3: calibrated 165-variable nonlinear reconstruction.
+add_executable(
+    state_finder_m27_calibrated_reconstruction
+    apps/m27_calibrated_nonlinear_reconstruction.cpp
+)
+
+target_link_libraries(
+    state_finder_m27_calibrated_reconstruction
+    PRIVATE state_finder_core
+)

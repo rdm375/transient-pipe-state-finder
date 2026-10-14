@@ -458,6 +458,14 @@ int main(int argc, char** argv)
             << result.objective_evaluations << '\n'
             << "gradient_evaluations="
             << result.gradient_evaluations << '\n'
+            << "pcg_solves="
+            << diagnostics.pcg_solves << '\n'
+            << "maximum_true_residual_ratio="
+            << diagnostics.maximum_true_residual_ratio << '\n'
+            << "final_damping="
+            << diagnostics.final_damping << '\n'
+            << "final_forcing_tolerance="
+            << diagnostics.final_forcing_tolerance << '\n'
             << "pcg_iterations="
             << diagnostics.pcg_iterations << '\n'
             << "operator_calls="

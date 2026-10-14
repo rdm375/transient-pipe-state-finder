@@ -1,6 +1,7 @@
 #pragma once
 
 #include "state_finder/matrix_free_cg.hpp"
+#include "state_finder/dense_gauss_newton.hpp"
 #include "state_finder/optimizer.hpp"
 
 #include <algorithm>
@@ -36,6 +37,8 @@ struct GaussNewtonDiagnostics {
     int operator_calls = 0;
     int damping_retries = 0;
     int gradient_fallbacks = 0;
+    int dense_solves = 0;
+    int dense_operator_calls = 0;
 
     double maximum_true_residual_ratio = 0.0;
     double final_damping = 0.0;
@@ -44,6 +47,7 @@ struct GaussNewtonDiagnostics {
 
 struct GaussNewtonOptions {
     int max_iterations = 30;
+    bool dense_linear_solver = false;
     int max_cg_iterations = 200;
     int max_line_search_steps = 40;
     int max_damping_attempts = 6;
@@ -197,9 +201,27 @@ inline OptimizationResult minimize_gauss_newton(
                 if (make_preconditioner)
                     M_inverse = make_preconditioner(A, damping);
 
-                const auto cg =
-                    solve_matrix_free_cg(
+                CGResult cg;
+
+                if (options.dense_linear_solver) {
+                    if (diagnostics)
+                        ++diagnostics->dense_solves;
+
+                    const auto dense =
+                        solve_dense_gauss_newton(A, rhs);
+
+                    cg.solution = dense.solution;
+                    cg.converged = true;
+                    cg.operator_calls = dense.operator_calls;
+
+                    if (diagnostics)
+                        diagnostics->dense_operator_calls +=
+                            dense.operator_calls;
+                }
+                else {
+                    cg = solve_matrix_free_cg(
                         A, rhs, cg_options, M_inverse);
+                }
 
                 if (diagnostics) {
                     diagnostics->pcg_iterations +=

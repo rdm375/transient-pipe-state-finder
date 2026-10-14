@@ -1,9 +1,12 @@
 #include "state_finder/correlated_joint_gauss_newton.hpp"
+#include "state_finder/joint_regularization_preconditioner.hpp"
 #include "state_finder/steady_state_initializer.hpp"
 
 #include "pipe_sim/integrate.hpp"
 
 #include <algorithm>
+#include <array>
+#include <cstdlib>
 #include <chrono>
 #include <cmath>
 #include <fstream>
@@ -16,6 +19,19 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+extern "C" {
+void dsyev_(
+    const char* jobz,
+    const char* uplo,
+    const int* n,
+    double* a,
+    const int* lda,
+    double* w,
+    double* work,
+    const int* lwork,
+    int* info);
+}
 
 using namespace state_finder;
 
@@ -116,15 +132,316 @@ double norm(const std::vector<double>& values)
 
 } // namespace
 
+
+// M27_C7_SPECTRUM
+// Undamped measurement information and terminal-inventory sensitivity.
+void run_m27_c7_spectrum(
+    const ForwardConfiguration& config,
+    const BoundaryObservationRecord& observations,
+    const JointInverseVariables& baseline,
+    const TemporalMeasurementCovariance& covariance,
+    JointVariableScales scales,
+    const std::vector<double>& x,
+    const std::string& prefix)
+{
+    const int m = static_cast<int>(x.size());
+
+    if (m != 163)
+        throw std::runtime_error("Unexpected M27-C7 dimension");
+
+    // Column-major storage for LAPACK.
+    std::vector<double> H(m*m, 0.0);
+
+    const auto A =
+        make_correlated_joint_gauss_newton_operator(
+            config, observations, baseline, x,
+            0.0, covariance, scales);
+
+    for (int j = 0; j < m; ++j) {
+        std::vector<double> e(m, 0.0);
+        e[j] = 1.0;
+
+        const auto column = A(e);
+
+        if (column.size() != static_cast<std::size_t>(m))
+            throw std::runtime_error(
+                "M27-C7 operator dimension mismatch");
+
+        for (int i = 0; i < m; ++i) {
+            if (!std::isfinite(column[i]))
+                throw std::runtime_error(
+                    "Nonfinite information matrix");
+
+            H[i + m*j] = column[i];
+        }
+    }
+
+    double max_entry = 0.0;
+    double max_asymmetry = 0.0;
+
+    for (int j = 0; j < m; ++j) {
+        for (int i = 0; i < m; ++i) {
+            max_entry = std::max(
+                max_entry, std::abs(H[i+m*j]));
+
+            max_asymmetry = std::max(
+                max_asymmetry,
+                std::abs(H[i+m*j]-H[j+m*i]));
+        }
+    }
+
+    const double relative_asymmetry =
+        max_asymmetry/std::max(1.0, max_entry);
+
+    if (relative_asymmetry > 1.0e-8)
+        throw std::runtime_error(
+            "M27-C7 information matrix fails symmetry check");
+
+    // Symmetrize roundoff only after checking the defect.
+    for (int j = 0; j < m; ++j) {
+        for (int i = j+1; i < m; ++i) {
+            const double v =
+                0.5*(H[i+m*j]+H[j+m*i]);
+
+            H[i+m*j] = v;
+            H[j+m*i] = v;
+        }
+    }
+
+    std::vector<double> eigenvalues(m);
+    int info = 0;
+    int lwork = -1;
+    double query = 0.0;
+
+    const char jobz = 'V';
+    const char uplo = 'U';
+
+    dsyev_(
+        &jobz, &uplo, &m,
+        H.data(), &m,
+        eigenvalues.data(),
+        &query, &lwork, &info);
+
+    if (info != 0 || !std::isfinite(query))
+        throw std::runtime_error(
+            "M27-C7 LAPACK workspace query failed");
+
+    lwork = std::max(3*m, static_cast<int>(query));
+    std::vector<double> work(lwork);
+
+    dsyev_(
+        &jobz, &uplo, &m,
+        H.data(), &m,
+        eigenvalues.data(),
+        work.data(), &lwork, &info);
+
+    if (info != 0)
+        throw std::runtime_error(
+            "M27-C7 LAPACK eigensolver failed");
+
+    // Terminal inventory gradient in scaled coordinates.
+    // Central differences use the full nonlinear trajectory.
+    const auto terminal_inventory =
+        [&](const std::vector<double>& z)
+    {
+        const auto variables =
+            unpack_joint_variables(z, baseline, scales);
+
+        const auto trajectory =
+            record_joint_trajectory(config, variables);
+
+        return inventory(
+            trajectory.state(config.steps), config);
+    };
+
+    const double inventory_at_x = terminal_inventory(x);
+    std::vector<double> inventory_gradient(m);
+
+    constexpr double h = 1.0e-4;
+
+    for (int j = 0; j < m; ++j) {
+        auto plus = x;
+        auto minus = x;
+
+        plus[j] += h;
+        minus[j] -= h;
+
+        inventory_gradient[j] =
+            (terminal_inventory(plus)
+             - terminal_inventory(minus))/(2.0*h);
+
+        if (!std::isfinite(inventory_gradient[j]))
+            throw std::runtime_error(
+                "Nonfinite inventory gradient");
+    }
+
+    const double largest = eigenvalues.back();
+
+    if (!(largest > 0.0))
+        throw std::runtime_error(
+            "M27-C7 has no positive information eigenvalue");
+
+    // Report several thresholds; do not assert a unique
+    // numerical rank based on one arbitrary cutoff.
+    const std::array<double, 4> thresholds{
+        1.0e-6, 1.0e-8, 1.0e-10, 1.0e-12
+    };
+
+    std::ofstream spectrum(prefix + "_eigenvalues.csv");
+
+    if (!spectrum)
+        throw std::runtime_error(
+            "Cannot create M27-C7 eigenvalue CSV");
+
+    spectrum << std::setprecision(17);
+    spectrum
+        << "mode,eigenvalue,relative_eigenvalue,"
+        << "inventory_sensitivity_kg,"
+        << "initial_fraction,inlet_fraction,outlet_fraction\n";
+
+    std::ofstream weak(prefix + "_weak_modes.csv");
+
+    if (!weak)
+        throw std::runtime_error(
+            "Cannot create M27-C7 weak-mode CSV");
+
+    weak << std::setprecision(17);
+    weak
+        << "mode,eigenvalue,inventory_sensitivity_kg,"
+        << "initial_fraction,inlet_fraction,outlet_fraction\n";
+
+    // Joint coordinate ordering:
+    // initial: 2*n+1 = 41
+    // inlet:   steps+1 = 61
+    // outlet:  steps+1 = 61
+    const int initial_end = 2*config.n+1;
+    const int inlet_end = initial_end+config.steps+1;
+
+    double maximum_eigen_residual = 0.0;
+
+    for (int k = 0; k < m; ++k) {
+        double sensitivity = 0.0;
+        double initial_fraction = 0.0;
+        double inlet_fraction = 0.0;
+        double outlet_fraction = 0.0;
+
+        std::vector<double> v(m);
+
+        for (int i = 0; i < m; ++i) {
+            const double value = H[i+m*k];
+            v[i] = value;
+
+            sensitivity +=
+                inventory_gradient[i]*value;
+
+            const double energy = value*value;
+
+            if (i < initial_end)
+                initial_fraction += energy;
+            else if (i < inlet_end)
+                inlet_fraction += energy;
+            else
+                outlet_fraction += energy;
+        }
+
+        // Verify the eigenpair against the original
+        // matrix-free operator.
+        const auto Av = A(v);
+        double residual_sq = 0.0;
+
+        for (int i = 0; i < m; ++i) {
+            const double r =
+                Av[i]-eigenvalues[k]*v[i];
+            residual_sq += r*r;
+        }
+
+        maximum_eigen_residual = std::max(
+            maximum_eigen_residual,
+            std::sqrt(residual_sq)/
+                std::max(1.0, largest));
+
+        spectrum
+            << k << ','
+            << eigenvalues[k] << ','
+            << eigenvalues[k]/largest << ','
+            << sensitivity << ','
+            << initial_fraction << ','
+            << inlet_fraction << ','
+            << outlet_fraction << '\n';
+
+        if (k < 10) {
+            weak
+                << k << ','
+                << eigenvalues[k] << ','
+                << sensitivity << ','
+                << initial_fraction << ','
+                << inlet_fraction << ','
+                << outlet_fraction << '\n';
+        }
+    }
+
+    spectrum.close();
+    weak.close();
+
+    std::cout << std::setprecision(17)
+        << "M27_C7_SPECTRUM\n"
+        << "dimension=" << m << '\n'
+        << "inventory_kg=" << inventory_at_x << '\n'
+        << "minimum_eigenvalue=" << eigenvalues.front() << '\n'
+        << "maximum_eigenvalue=" << largest << '\n'
+        << "relative_asymmetry=" << relative_asymmetry << '\n'
+        << "maximum_eigenpair_residual="
+        << maximum_eigen_residual << '\n';
+
+    for (double threshold : thresholds) {
+        int rank = 0;
+
+        for (double value : eigenvalues) {
+            if (value > threshold*largest)
+                ++rank;
+        }
+
+        std::cout
+            << "rank_at_relative_threshold_"
+            << threshold << '=' << rank << '\n';
+    }
+
+    std::cout
+        << "eigenvalues_file="
+        << prefix << "_eigenvalues.csv\n"
+        << "weak_modes_file="
+        << prefix << "_weak_modes.csv\n";
+}
+
 int main(int argc, char** argv)
 {
     try {
-        if (argc != 4)
+        const bool spectrum_mode =
+            argc == 6 &&
+            std::string(argv[3]) == "--spectrum";
+
+        if (!spectrum_mode && argc != 4 && argc != 5)
             throw std::runtime_error(
                 "Usage: state_finder_m27_correlated_reconstruction "
                 "<corrected-noise.csv> "
                 "<max-iterations> "
-                "<solution-output.csv>");
+                "<solution-output.csv> "
+                "[--preconditioned|--dense]");
+
+        const std::string mode =
+            (!spectrum_mode && argc == 5) ? argv[4] : "";
+
+        const bool use_preconditioner =
+            mode == "--preconditioned";
+
+        const bool use_dense =
+            mode == "--dense";
+
+        if (!mode.empty() &&
+            !use_preconditioner &&
+            !use_dense)
+            throw std::runtime_error(
+                "Unknown option; expected --preconditioned or --dense");
 
         const std::string measurement_file = argv[1];
 
@@ -142,9 +459,12 @@ int main(int argc, char** argv)
             throw std::runtime_error(
                 "Invalid maximum iteration count");
 
-        const std::filesystem::path solution_file = argv[3];
+        const std::filesystem::path solution_file =
+            spectrum_mode ? std::filesystem::path{} :
+                            std::filesystem::path(argv[3]);
 
-        if (std::filesystem::exists(solution_file))
+        if (!spectrum_mode &&
+            std::filesystem::exists(solution_file))
             throw std::runtime_error(
                 "Refusing to overwrite existing solution: "
                 + solution_file.string());
@@ -272,11 +592,69 @@ int main(int argc, char** argv)
                 covariance,
                 scales);
 
+        if (spectrum_mode) {
+            const std::string point = argv[4];
+            const std::string prefix = argv[5];
+
+            std::vector<double> x(dimension, 0.0);
+
+            if (point != "truth") {
+                std::ifstream input(point);
+
+                if (!input)
+                    throw std::runtime_error(
+                        "Cannot open reconstruction: " + point);
+
+                std::string line;
+                std::getline(input, line);
+
+                if (line !=
+                    "coordinate,reconstructed_scaled_value")
+                    throw std::runtime_error(
+                        "Unexpected reconstruction CSV header");
+
+                for (std::size_t j = 0; j < dimension; ++j) {
+                    if (!std::getline(input, line))
+                        throw std::runtime_error(
+                            "Truncated reconstruction CSV");
+
+                    std::istringstream row(line);
+                    std::string coordinate;
+                    std::string value;
+                    std::string extra;
+
+                    if (!std::getline(row, coordinate, ',') ||
+                        !std::getline(row, value, ',') ||
+                        std::getline(row, extra, ',') ||
+                        std::stoul(coordinate) != j)
+                        throw std::runtime_error(
+                            "Malformed reconstruction CSV");
+
+                    x[j] = std::stod(value);
+
+                    if (!std::isfinite(x[j]))
+                        throw std::runtime_error(
+                            "Nonfinite reconstruction coordinate");
+                }
+
+                if (std::getline(input, line))
+                    throw std::runtime_error(
+                        "Unexpected extra reconstruction row");
+            }
+
+            run_m27_c7_spectrum(
+                config, observations, baseline,
+                covariance, scales, x, prefix);
+
+            return 0;
+        }
+
         GaussNewtonOptions options;
         options.max_iterations = max_iterations;
         options.max_cg_iterations = 200;
         options.gradient_tolerance = 1.0e-7;
         options.initial_damping = 1.0e-3;
+        options.dense_linear_solver = use_dense;
 
         const auto initial_evaluation =
             objective(initial, true);
@@ -290,13 +668,24 @@ int main(int argc, char** argv)
 
         GaussNewtonDiagnostics diagnostics;
 
+        GaussNewtonPreconditionerFactory preconditioner;
+
+        if (use_preconditioner) {
+            preconditioner =
+                make_joint_regularization_preconditioner_factory(
+                    n,
+                    steps,
+                    JointRegularization{});
+        }
+
         const auto result =
             minimize_gauss_newton(
                 objective,
                 initial,
                 factory,
                 options,
-                &diagnostics);
+                &diagnostics,
+                preconditioner);
 
         const auto stop =
             std::chrono::steady_clock::now();
@@ -404,6 +793,8 @@ int main(int argc, char** argv)
             << "M27_NATIVE_CORRELATED_RECONSTRUCTION\n"
             << "dimensions=" << dimension << '\n'
             << "max_iterations=" << max_iterations << '\n'
+            << "preconditioned=" << use_preconditioner << '\n'
+            << "dense_linear_solver=" << use_dense << '\n'
             << "measurements=" << noise.size() << '\n'
             << "tau_s=" << tau << '\n'
             << "normalized_sensor_sigma=0.5\n"
@@ -422,6 +813,18 @@ int main(int argc, char** argv)
             << result.objective_evaluations << '\n'
             << "gradient_evaluations="
             << result.gradient_evaluations << '\n'
+            << "pcg_solves="
+            << diagnostics.pcg_solves << '\n'
+            << "maximum_true_residual_ratio="
+            << diagnostics.maximum_true_residual_ratio << '\n'
+            << "final_damping="
+            << diagnostics.final_damping << '\n'
+            << "final_forcing_tolerance="
+            << diagnostics.final_forcing_tolerance << '\n'
+            << "dense_solves="
+            << diagnostics.dense_solves << '\n'
+            << "dense_operator_calls="
+            << diagnostics.dense_operator_calls << '\n'
             << "pcg_iterations="
             << diagnostics.pcg_iterations << '\n'
             << "operator_calls="

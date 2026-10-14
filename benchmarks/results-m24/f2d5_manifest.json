@@ -1,0 +1,26 @@
+{
+  "experiment": "M2.4-F2D-5",
+  "timestamp_utc": "2026-10-14T13:12:43.388628+00:00",
+  "validation_level": "Strict-feasibility correction and saved-direction replay using the existing nonlinear C++ oracle",
+  "independent_physics_implementation": false,
+  "global_optimality_certified": false,
+  "git_commit": "16e4597b2e9ec10ddf2feea5c7b75934c69cc36c",
+  "git_status_porcelain": "M CMakeLists.txt\n M benchmarks/results-m16d/hybrid_trajectory.csv\n M benchmarks/results-m16e/hybrid_baseline.csv\n M benchmarks/results-m16e/hybrid_decreased.csv\n M benchmarks/results-m16e/hybrid_increased.csv\n?? analysis/m24_f2d2_trust_constr.py\n?? analysis/m24_f2d3_diagnostics.py\n?? analysis/m24_f2d4_replay.py\n?? analysis/m24_f2d4_replay.py.pre_f2d3_fix\n?? analysis/m24_f2d5_closure.py\n?? analysis/m24_f2d_nonlinear_optimize.py\n?? analysis/m24_f2d_nonlinear_optimize.py.bak\n?? analysis/m24_f2d_nonlinear_optimize.py.pre_bounds\n?? apps/m24_adversarial_validation.cpp.bak\n?? apps/m24_f2d_nonlinear_oracle.cpp\n?? benchmarks/results-m16c/curvature-m16d.log\n?? benchmarks/results-m16c/curvature-m16e.log\n?? benchmarks/results-m16c/diagnostic.log\n?? benchmarks/results-m16c/hybrid-m16d.log\n?? benchmarks/results-m16c/hybrid-m16e.log\n?? benchmarks/results-m16c/tikhonov-m16d.log\n?? benchmarks/results-m16c/tikhonov-m16e.log\n?? benchmarks/results-m16c/unregularized-m16d.log\n?? benchmarks/results-m16c/unregularized-m16e.log\n?? benchmarks/results-m16d/gn_hybrid_trajectory.csv\n?? benchmarks/results-m16d/gn_tikhonov_trajectory.csv\n?? benchmarks/results-m16d/gn_unregularized_trajectory.csv\n?? benchmarks/results-m16e/gn_hybrid_baseline.csv\n?? benchmarks/results-m16e/gn_hybrid_decreased.csv\n?? benchmarks/results-m16e/gn_hybrid_increased.csv\n?? benchmarks/results-m16e/gn_tikhonov_baseline.csv\n?? benchmarks/results-m16e/gn_tikhonov_decreased.csv\n?? benchmarks/results-m16e/gn_tikhonov_increased.csv\n?? benchmarks/results-m16e/gn_unregularized_baseline.csv\n?? benchmarks/results-m16e/gn_unregularized_decreased.csv\n?? benchmarks/results-m16e/gn_unregularized_increased.csv\n?? benchmarks/results-m17a/H_100.csv\n?? benchmarks/results-m17a/H_200.csv\n?? benchmarks/results-m17a/H_400.csv\n?? benchmarks/results-m17a/H_80.csv\n?? benchmarks/results-m17a/H_800.csv\n?? benchmarks/results-m17a/dominant_mode_flow.png\n?? benchmarks/results-m17a/dominant_mode_pressure.png\n?? benchmarks/results-m17a/information_decay.csv\n?? benchmarks/results-m17a/predictive_observability.csv\n?? benchmarks/results-m17a/prior_observability_summary.csv\n?? benchmarks/results-m17a/sensitivity_norms.csv\n?? benchmarks/results-m17e/T_20.csv\n?? benchmarks/results-m17e/T_200.csv\n?? benchmarks/results-m17e/T_40.csv\n?? benchmarks/results-m17e/T_400.csv\n?? benchmarks/results-m17e/T_600.csv\n?? benchmarks/results-m17e/T_80.csv\n?? benchmarks/results-m17e/T_800.csv\n?? benchmarks/results-m17e/T_final.csv\n?? benchmarks/results-m17e/full_trajectory_detail.csv\n?? benchmarks/results-m17e/full_trajectory_summary.csv\n?? benchmarks/results-m17e/m17g_amplification.csv\n?? benchmarks/results-m17e/m17g_detail.csv\n?? benchmarks/results-m17e/m17g_summary.csv\n?? benchmarks/results-m17e/modal_pressure_shapes.csv\n?? benchmarks/results-m17h-full/\n?? benchmarks/results-m18c/\n?? benchmarks/results-m19a/full_n100.log\n?? benchmarks/results-m19a/full_n200.log\n?? benchmarks/results-m19a/full_n400.log\n?? benchmarks/results-m19a/late_n100.log\n?? benchmarks/results-m19a/late_n200.log\n?? benchmarks/results-m19a/late_n400.log\n?? benchmarks/results-m19b/full_flow_modes.png\n?? benchmarks/results-m19b/full_pressure_modes.png\n?? benchmarks/results-m19b/late_flow_modes.png\n?? benchmarks/results-m19b/late_pressure_modes.png\n?? benchmarks/results-m22c-adjoint-run.log\n?? benchmarks/results-m22c-convergence-run.log\n?? benchmarks/results-m22c-run.log\n?? benchmarks/results-m23/\n?? benchmarks/results-m23d/\n?? benchmarks/results-m23e-500/\n?? benchmarks/results-m23e/\n?? benchmarks/results-m23f/\n?? benchmarks/results-m23g/\n?? benchmarks/results-m24/\n?? docs/RELEASE_CANDIDATE_CHECKLIST.md\n?? m23e_interfaces.txt",
+  "python_version": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+  "numpy_version": "2.5.4",
+  "pandas_version": "3.0.6",
+  "oracle_path": "/nvme/Sync/transient-pipe-state-finder/build/state_finder_m24_f2d_oracle",
+  "oracle_sha256": "052c500a38f91f2efecd4f348083eba2a82e4d7e76b874ae745ccceb8ef2e5ee",
+  "script_sha256": "b9c2ad51b2c9faf199db8aaf2aff716cc93e876340346d25d0874dd80ac25117",
+  "inputs_sha256": {
+    "benchmarks/results-m24/f2d4_replay_results.csv": "ffa9e3a7fb9f91f58c1e88917f72a3abdc846cc37b93dfca109ba943cc4ceea1",
+    "benchmarks/results-m24/f2d4_validated_directions.csv": "9588aadaef130946ad6bb663edaef61841a4628e2b71a633c6745532433e20d0"
+  },
+  "strict_squared_constraint_margin": 1e-08,
+  "conservation_tolerance_kg": 1e-06,
+  "maximum_relative_objective_loss": 1e-05,
+  "passed": true,
+  "failed_quantities": [],
+  "results_sha256": "062b086ae652042a040b088cff3a2eaaa252866c0dbaa4f41e577aece06d9785",
+  "directions_sha256": "a52da4ecebe7fe7a18fe75f2b19c91fee5ed2cf0ef0569216f4372d760b929dc"
+}

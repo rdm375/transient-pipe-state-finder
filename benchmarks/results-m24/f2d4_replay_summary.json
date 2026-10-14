@@ -1,0 +1,35 @@
+{
+  "experiment": "M2.4-F2D-4",
+  "timestamp_utc": "2026-10-14T13:09:12.493798+00:00",
+  "validation_level": "Saved-direction replay using the existing C++ nonlinear oracle; not independent physics",
+  "global_optimality_certified": false,
+  "constraint_tolerance_squared": 1e-10,
+  "objective_relative_tolerance": 1e-09,
+  "objective_absolute_tolerance": 1e-08,
+  "conservation_tolerance_kg": 1e-06,
+  "candidates_checked": 14,
+  "candidates_passed": 13,
+  "best_validated": {
+    "pressure": {
+      "source": "f2d3",
+      "sign": 1,
+      "terminal_abs": 870.3988835820928,
+      "linear_bound": 868.0608642865335,
+      "ratio": 1.0026933817566823
+    },
+    "flow": {
+      "source": "f2d1",
+      "sign": 1,
+      "terminal_abs": 0.058441832316646014,
+      "linear_bound": 0.0582174763587526,
+      "ratio": 1.0038537561558125
+    },
+    "inventory": {
+      "source": "f2d3",
+      "sign": 1,
+      "terminal_abs": 56.15248641895596,
+      "linear_bound": 55.997500963340514,
+      "ratio": 1.0027677209330628
+    }
+  }
+}

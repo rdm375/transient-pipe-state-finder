@@ -1081,3 +1081,16 @@ target_link_libraries(
     state_finder_m24_adversarial_validation
     PRIVATE state_finder_core
 )
+
+# M2.4-F2C-2: Nonlinear measurement-feasible adversarial rays.
+# Excluded from regular CTest because it performs hundreds
+# of nonlinear forward integrations.
+add_executable(
+    state_finder_m24_nonlinear_feasibility
+    apps/m24_nonlinear_feasibility.cpp
+)
+
+target_link_libraries(
+    state_finder_m24_nonlinear_feasibility
+    PRIVATE state_finder_core
+)

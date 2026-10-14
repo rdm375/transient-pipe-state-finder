@@ -44,7 +44,8 @@ On Ubuntu, install:
         git \
         python3 \
         libblas-dev \
-        liblapack-dev
+        liblapack-dev \
+        libboost-dev
 
 A C++20-capable compiler is required.
 

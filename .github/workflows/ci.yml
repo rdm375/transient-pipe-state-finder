@@ -25,7 +25,8 @@ jobs:
             git \
             python3 \
             libblas-dev \
-            liblapack-dev
+            liblapack-dev \
+            libboost-dev
 
       - name: Checkout pinned forward solver
         run: |

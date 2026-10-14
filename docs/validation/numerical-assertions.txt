@@ -1,0 +1,110 @@
+tests/cpp/adjoint_gradient_test.cpp:168:            << " relative_error=" << error
+tests/cpp/adjoint_gradient_test.cpp:172:    std::cout << "  best_relative_error="
+tests/cpp/adjoint_gradient_test.cpp:176:    // finite-difference experiment, not a tolerance
+tests/cpp/tangent_matrix_test.cpp:144:        << " max_relative_error=" << max_error
+tests/cpp/joint_nonlinear_reconstruction_test.cpp:207:            gn_options.gradient_tolerance = 1.0e-7;
+tests/cpp/joint_nonlinear_reconstruction_test.cpp:212:            lbfgs_options.gradient_tolerance = 1.0e-7;
+tests/cpp/regularization_preconditioner_test.cpp:49:    const double relative_error =
+tests/cpp/regularization_preconditioner_test.cpp:54:        << relative_error << '\n';
+tests/cpp/regularization_preconditioner_test.cpp:56:    if (!(relative_error < 1.0e-11))
+tests/cpp/regularized_state_reconstruction.cpp:418:        const double relative_error =
+tests/cpp/regularized_state_reconstruction.cpp:427:            << "scaled_directional_relative_error="
+tests/cpp/regularized_state_reconstruction.cpp:428:            << relative_error << '\n';
+tests/cpp/regularized_state_reconstruction.cpp:431:            relative_error < 1.0e-5,
+tests/cpp/regularized_state_reconstruction.cpp:503:        options.gradient_tolerance = 1.0e-8;
+tests/cpp/regularized_state_reconstruction.cpp:504:        options.relative_objective_tolerance = 1.0e-14;
+tests/cpp/regularized_state_reconstruction.cpp:533:            gn_options.gradient_tolerance =
+tests/cpp/regularized_state_reconstruction.cpp:534:                options.gradient_tolerance;
+tests/cpp/regularized_state_reconstruction.cpp:536:            gn_options.relative_objective_tolerance =
+tests/cpp/regularized_state_reconstruction.cpp:537:                options.relative_objective_tolerance;
+tests/cpp/regularized_state_reconstruction.cpp:717:                << "gn_final_forcing_tolerance="
+tests/cpp/regularized_state_reconstruction.cpp:718:                << gn_diagnostics.final_forcing_tolerance << '\n';
+tests/cpp/regularized_state_reconstruction.cpp:1107:            << "m21_initial_linepack_relative_error="
+tests/cpp/regularized_state_reconstruction.cpp:1200:                "initial_linepack_relative_error",
+tests/cpp/regularized_state_reconstruction.cpp:1675:            const double conservation_tolerance = 1.0e-8;
+tests/cpp/regularized_state_reconstruction.cpp:1681:                    conservation_tolerance &&
+tests/cpp/regularized_state_reconstruction.cpp:1683:                    conservation_tolerance,
+tests/cpp/regularized_state_reconstruction.cpp:1684:                "M1.6e mass conservation defect exceeded tolerance");
+tests/cpp/regularized_state_reconstruction.cpp:1690:                        double tolerance,
+tests/cpp/regularized_state_reconstruction.cpp:1710:                            difference > tolerance) {
+tests/cpp/boundary_history_parity_test.cpp:22:double relative_error(double a, double b)
+tests/cpp/boundary_history_parity_test.cpp:37:        error = std::max(error, relative_error(a[i], b[i]));
+tests/cpp/boundary_history_parity_test.cpp:224:            relative_error(inlet_old, inlet_new);
+tests/cpp/boundary_history_parity_test.cpp:227:            relative_error(
+tests/cpp/boundary_history_parity_test.cpp:244:            << "inlet_flow_relative_error="
+tests/cpp/boundary_history_parity_test.cpp:246:            << "outlet_flow_relative_error="
+tests/cpp/boundary_history_parity_test.cpp:248:            << "outlet_pressure_relative_error="
+tests/cpp/boundary_history_parity_test.cpp:250:            << "linepack_relative_error="
+tests/cpp/boundary_history_parity_test.cpp:252:            << "final_pressure_relative_error="
+tests/cpp/boundary_history_parity_test.cpp:254:            << "final_flow_relative_error="
+tests/cpp/boundary_history_parity_test.cpp:258:            << "worst_relative_error="
+tests/cpp/steady_state_initializer_test.cpp:119:            const double relative_error =
+tests/cpp/steady_state_initializer_test.cpp:125:                relative_error < 1.0e-14,
+tests/cpp/adjoint_components_test.cpp:129:            << " best_relative_error=" << best
+tests/cpp/adjoint_components_test.cpp:134:        // This is not the production derivative tolerance.
+tests/cpp/quadratic_regularizer_test.cpp:67:    assert(max_error < 1e-8);
+tests/cpp/adjoint_long_trajectory.cpp:262:        const double absolute_error =
+tests/cpp/adjoint_long_trajectory.cpp:266:            absolute_error/
+tests/cpp/adjoint_long_trajectory.cpp:280:            << absolute_error << ','
+tests/cpp/adjoint_long_trajectory.cpp:326:            << "absolute_error,normalized_error,"
+tests/cpp/joint_adjoint_test.cpp:202:            << "directional_relative_error="
+tests/cpp/inverse_state_reconstruction.cpp:363:        const double relative_error =
+tests/cpp/inverse_state_reconstruction.cpp:372:            << "scaled_directional_relative_error="
+tests/cpp/inverse_state_reconstruction.cpp:373:            << relative_error << '\n';
+tests/cpp/inverse_state_reconstruction.cpp:376:            relative_error < 1.0e-5,
+tests/cpp/inverse_state_reconstruction.cpp:448:        options.gradient_tolerance = 1.0e-8;
+tests/cpp/inverse_state_reconstruction.cpp:449:        options.relative_objective_tolerance = 1.0e-14;
+tests/cpp/joint_optimizer_gradient_test.cpp:216:            << "directional_relative_error="
+tests/cpp/boundary_derivatives_test.cpp:80:        const double relative_error =
+tests/cpp/boundary_derivatives_test.cpp:87:            << "relative_error=" << relative_error << '\n';
+tests/cpp/boundary_derivatives_test.cpp:89:        require(relative_error < 1e-14,
+tests/cpp/joint_scaled_problem_test.cpp:178:            << "directional_relative_error=" << error << '\n';
+tests/cpp/old_state_vjp_test.cpp:148:    const double relative_error =
+tests/cpp/old_state_vjp_test.cpp:158:        << " relative_error=" << relative_error
+tests/cpp/old_state_vjp_test.cpp:161:    // This tolerance applies ONLY to the finite-difference
+tests/cpp/old_state_vjp_test.cpp:163:    if (relative_error > 2.0e-7)
+tests/cpp/joint_gauss_newton_operator_test.cpp:36:double relative_error(double a, double b)
+tests/cpp/joint_gauss_newton_operator_test.cpp:138:            relative_error(lhs, rhs);
+tests/cpp/joint_gauss_newton_operator_test.cpp:168:            relative_error(
+tests/cpp/joint_gauss_newton_operator_test.cpp:176:        options.relative_tolerance = 1.0e-13;
+tests/cpp/joint_gauss_newton_operator_test.cpp:177:        options.absolute_tolerance = 1.0e-14;
+tests/cpp/joint_gauss_newton_operator_test.cpp:202:            << "symmetry_relative_error="
+tests/cpp/joint_gauss_newton_operator_test.cpp:205:            << "curvature_relative_error="
+tests/cpp/joint_gauss_newton_operator_test.cpp:211:            << "pcg_solution_relative_error="
+tests/cpp/optimizer_quadratic_test.cpp:61:        options.gradient_tolerance = 1.0e-10;
+tests/cpp/optimizer_quadratic_test.cpp:62:        options.relative_objective_tolerance = 0.0;
+tests/cpp/high_precision_physics_test.cpp:151:                  << " relative_error="
+tests/cpp/observation_adjoint_test.cpp:158:            const double relative_error =
+tests/cpp/observation_adjoint_test.cpp:166:                      << " relative_error="
+tests/cpp/observation_adjoint_test.cpp:167:                      << relative_error
+tests/cpp/observation_adjoint_test.cpp:173:                relative_error < 1.0e-8,
+tests/cpp/joint_regularization_preconditioner_test.cpp:53:    const double relative_error =
+tests/cpp/joint_regularization_preconditioner_test.cpp:58:        << relative_error << '\n';
+tests/cpp/joint_regularization_preconditioner_test.cpp:60:    if (!(relative_error < 1.0e-11))
+tests/cpp/regularized_objective_test.cpp:77:    options.gradient_tolerance = 1e-9;
+tests/cpp/regularized_objective_test.cpp:97:    assert(max_gradient_error < 1e-8);
+tests/cpp/regularized_objective_test.cpp:98:    assert(optimized.final_objective <
+tests/cpp/regularized_objective_test.cpp:100:    assert(optimized.gradient_norm < 1e-6);
+tests/cpp/transient_parity.cpp:53:    double tolerance)
+tests/cpp/transient_parity.cpp:56:        std::abs(actual - expected) > tolerance) {
+tests/cpp/transient_parity.cpp:62:                  << " tolerance=" << tolerance
+tests/cpp/transient_parity.cpp:167:    const auto relative_tolerance = [](double value) {
+tests/cpp/transient_parity.cpp:175:        relative_tolerance(ref.outlet_pressure)
+tests/cpp/transient_parity.cpp:182:        relative_tolerance(ref.inlet_flow)
+tests/cpp/transient_parity.cpp:189:        relative_tolerance(ref.outlet_flow)
+tests/cpp/transient_parity.cpp:196:        relative_tolerance(ref.linepack)
+tests/cpp/matrix_free_cg_test.cpp:55:    options.relative_tolerance = 1.0e-12;
+tests/cpp/matrix_free_cg_test.cpp:65:    const double relative_error =
+tests/cpp/matrix_free_cg_test.cpp:73:        << "relative_solution_error=" << relative_error
+tests/cpp/matrix_free_cg_test.cpp:76:    if (!result.converged || relative_error > 1.0e-10)
+tests/cpp/forward_smoke.cpp:39:        1.0e-8,   // residual_tolerance
+tests/cpp/forward_smoke.cpp:40:        1.0e-10,  // step_tolerance
+tests/cpp/tangent_linear_test.cpp:174:    const double relative_error =
+tests/cpp/tangent_linear_test.cpp:186:        << " relative_error=" << relative_error
+tests/cpp/tangent_linear_test.cpp:191:    if (relative_error > 1.0e-9)
+tests/cpp/joint_tangent_linear_test.cpp:18:double relative_error(double a, double b)
+tests/cpp/joint_tangent_linear_test.cpp:65:            require(relative_error(tangent.final_state[i],tangent_direct.final_state[i])<1e-13,
+tests/cpp/joint_tangent_linear_test.cpp:67:        require(relative_error(tangent.final_state[0],tangent.response.inlet_pressure.back())<1e-10,
+tests/cpp/joint_tangent_linear_test.cpp:94:                worst=std::max(worst,relative_error(jv[i],fd));
+tests/cpp/joint_observation_adjoint_test.cpp:151:                << " relative_error=" << error
+tests/cpp/joint_observation_adjoint_test.cpp:161:            << "worst_transpose_relative_error="

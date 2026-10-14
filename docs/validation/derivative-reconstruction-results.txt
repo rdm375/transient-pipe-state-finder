@@ -1,0 +1,148 @@
+UpdateCTestConfiguration  from :/home/redacted/Sync/transient-pipe-state-finder/build-reproducible/DartConfiguration.tcl
+Parse Config file:/home/redacted/Sync/transient-pipe-state-finder/build-reproducible/DartConfiguration.tcl
+Test project /home/redacted/Sync/transient-pipe-state-finder/build-reproducible
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 7
+    Start  7: state_finder_adjoint_gradient
+
+7: Test command: /home/redacted/Sync/transient-pipe-state-finder/build-reproducible/state_finder_adjoint_gradient_test
+7: Working Directory: /home/redacted/Sync/transient-pipe-state-finder/build-reproducible
+7: Test timeout computed to be: 1500
+7: include_initial=0 seed=1 objective=2.89045565320676 adjoint_directional=273.9088630030412 max_linear_backward_error=1.279617361500737e-16
+7:   h=0.01 FD=273.9775893180659 relative_error=0.0002509094239272539
+7:   h=0.003 FD=273.9150474849154 relative_error=2.257861175547491e-05
+7:   h=0.001 FD=273.9095494721851 relative_error=2.506195441444714e-06
+7:   h=0.0003 FD=273.9089240727263 relative_error=2.229562211907852e-07
+7:   h=0.0001 FD=273.9088690911662 relative_error=2.222682718492894e-08
+7:   h=3e-05 FD=273.9088628126218 relative_error=6.951926479983722e-10
+7:   h=1e-05 FD=273.9088621992902 relative_error=2.934374013692137e-09
+7:   h=3e-06 FD=273.9088624298021 relative_error=2.092809628999119e-09
+7:   h=1e-06 FD=273.9088605065998 relative_error=9.114131604823044e-09
+7:   best_relative_error=6.951926479983722e-10
+7: include_initial=0 seed=2 objective=3.012465685656745 adjoint_directional=278.9333214486236 max_linear_backward_error=1.133490645807787e-16
+7:   h=0.01 FD=278.8179644779095 relative_error=0.0004135646831833307
+7:   h=0.003 FD=278.9229384056928 relative_error=3.722410387144895e-05
+7:   h=0.001 FD=278.9321668847364 relative_error=4.139211053078834e-06
+7:   h=0.0003 FD=278.9332166235899 relative_error=3.758067811967558e-07
+7:   h=0.0001 FD=278.9333089208212 relative_error=4.491325152765353e-08
+7:   h=3e-05 FD=278.9333193979448 relative_error=7.35186026262183e-09
+7:   h=1e-05 FD=278.9333202131372 relative_error=4.429325520983658e-09
+7:   h=3e-06 FD=278.9333201074958 relative_error=4.808059012549569e-09
+7:   h=1e-06 FD=278.9333179342713 relative_error=1.259925622274146e-08
+7:   best_relative_error=4.429325520983658e-09
+7: include_initial=0 seed=3 objective=3.153578438765258 adjoint_directional=273.4813741333775 max_linear_backward_error=1.511743331621529e-16
+7:   h=0.01 FD=273.1803038078693 relative_error=0.001100880549771406
+7:   h=0.003 FD=273.4542768253285 relative_error=9.908282834592394e-05
+7:   h=0.001 FD=273.4783628896362 relative_error=1.101078181591094e-05
+7:   h=0.0003 FD=273.4811025982838 relative_error=9.928833163239127e-07
+7:   h=0.0001 FD=273.4813434534655 relative_error=1.121828209052635e-07
+7:   h=3e-05 FD=273.481370845278 relative_error=1.202312041416885e-08
+7:   h=1e-05 FD=273.4813731551266 relative_error=3.577029378001217e-09
+7:   h=3e-06 FD=273.4813735551326 relative_error=2.114384973340427e-09
+7:   h=1e-06 FD=273.4813722133911 relative_error=7.020538293263017e-09
+7:   best_relative_error=2.114384973340427e-09
+7: include_initial=1 seed=1 objective=3.135807298185688 adjoint_directional=273.9275147260494 max_linear_backward_error=1.279617361500737e-16
+7:   h=0.01 FD=273.9962410410745 relative_error=0.0002508923395075849
+7:   h=0.003 FD=273.9336992079249 relative_error=2.257707438310942e-05
+7:   h=0.001 FD=273.9282011951922 relative_error=2.506024791082837e-06
+7:   h=0.0003 FD=273.9275757957286 relative_error=2.229410189365923e-07
+7:   h=0.0001 FD=273.9275208141434 relative_error=2.222520087351474e-08
+7:   h=3e-05 FD=273.9275145355583 relative_error=6.954067782478126e-10
+7:   h=1e-05 FD=273.9275139218566 relative_error=2.935786585312151e-09
+7:   h=3e-06 FD=273.927514152339 relative_error=2.094387616813518e-09
+7:   h=1e-06 FD=273.9275122323193 relative_error=9.103613086251235e-09
+7:   best_relative_error=6.954067782478126e-10
+7: include_initial=1 seed=2 objective=3.258960041161477 adjoint_directional=276.2858057155204 max_linear_backward_error=1.133490645807787e-16
+7:   h=0.01 FD=276.1704487448062 relative_error=0.0004175276772377958
+7:   h=0.003 FD=276.2754226725888 relative_error=3.758080479256239e-05
+7:   h=0.001 FD=276.2846511516339 relative_error=4.178875145189235e-06
+7:   h=0.0003 FD=276.2857008904877 relative_error=3.794079554954754e-07
+7:   h=0.0001 FD=276.2857931877693 relative_error=4.534344790812201e-08
+7:   h=3e-05 FD=276.285803664907 relative_error=7.422072841539957e-09
+7:   h=1e-05 FD=276.285804480425 relative_error=4.470353938673456e-09
+7:   h=3e-06 FD=276.2858043763305 relative_error=4.847117813745765e-09
+7:   h=1e-06 FD=276.285802208065 relative_error=1.269502569763701e-08
+7:   best_relative_error=4.470353938673456e-09
+7: include_initial=1 seed=3 objective=3.401589849006805 adjoint_directional=268.5148388411308 max_linear_backward_error=1.511743331621529e-16
+7:   h=0.01 FD=268.2137685156224 relative_error=0.001121242784226724
+7:   h=0.003 FD=268.4877415330801 relative_error=0.0001009154956490226
+7:   h=0.001 FD=268.5118275973844 relative_error=1.121444073432571e-05
+7:   h=0.0003 FD=268.5145673060418 relative_error=1.011247982257774e-06
+7:   h=0.0001 FD=268.5148081612554 relative_error=1.142576536828333e-07
+7:   h=3e-05 FD=268.5148355529761 relative_error=1.22457094043251e-08
+7:   h=1e-05 FD=268.5148378628099 relative_error=3.643451840807514e-09
+7:   h=3e-06 FD=268.5148382639557 relative_error=2.149509193995178e-09
+7:   h=1e-06 FD=268.514836921252 relative_error=7.149991436034408e-09
+7:   best_relative_error=2.149509193995178e-09
+7: PASS complete discrete adjoint
+1/3 Test  #7: state_finder_adjoint_gradient .................   Passed    0.08 sec
+test 13
+    Start 13: state_finder_tangent_linear
+
+13: Test command: /home/redacted/Sync/transient-pipe-state-finder/build-reproducible/state_finder_tangent_linear_test
+13: Working Directory: /home/redacted/Sync/transient-pipe-state-finder/build-reproducible
+13: Test timeout computed to be: 1500
+13: n=2 steps=0 include_initial=0 tangent=0 adjoint=0 relative_error=0 max_backward_error=0
+13: n=2 steps=0 include_initial=1 tangent=6.2986247107830433 adjoint=6.2986247107830442 relative_error=1.4101148432920478e-16 max_backward_error=0
+13: n=2 steps=1 include_initial=0 tangent=52.272829770987379 adjoint=52.272829770987386 relative_error=1.3592964813136395e-16 max_backward_error=1.233941580621464e-19
+13: n=2 steps=1 include_initial=1 tangent=58.571454481770424 adjoint=58.571454481770424 relative_error=0 max_backward_error=1.233941580621464e-19
+13: n=2 steps=12 include_initial=0 tangent=68.183765836310229 adjoint=68.183765836310229 relative_error=0 max_backward_error=9.9750628449857192e-19
+13: n=2 steps=12 include_initial=1 tangent=74.482390547093274 adjoint=74.482390547093274 relative_error=0 max_backward_error=9.9750628449857192e-19
+13: n=2 steps=80 include_initial=0 tangent=68.183865438799117 adjoint=68.183865438799145 relative_error=4.1683922211648332e-16 max_backward_error=1.7803527470628218e-18
+13: n=2 steps=80 include_initial=1 tangent=74.482490149582162 adjoint=74.48249014958219 relative_error=3.815891409286272e-16 max_backward_error=1.7803527470628218e-18
+13: n=10 steps=0 include_initial=0 tangent=0 adjoint=0 relative_error=0 max_backward_error=0
+13: n=10 steps=0 include_initial=1 tangent=2.6541278785911935 adjoint=2.6541278785911935 relative_error=0 max_backward_error=0
+13: n=10 steps=1 include_initial=0 tangent=294.42318763743384 adjoint=294.42318763743384 relative_error=0 max_backward_error=3.4303439133008879e-19
+13: n=10 steps=1 include_initial=1 tangent=297.07731551602501 adjoint=297.07731551602495 relative_error=1.913421721953784e-16 max_backward_error=3.4303439133008879e-19
+13: n=10 steps=12 include_initial=0 tangent=303.24673356519969 adjoint=303.24673356519946 relative_error=7.4979760794140753e-16 max_backward_error=5.3820369332364053e-19
+13: n=10 steps=12 include_initial=1 tangent=305.90086144379086 adjoint=305.90086144379063 relative_error=7.4329204033644693e-16 max_backward_error=5.3820369332364053e-19
+13: n=10 steps=80 include_initial=0 tangent=303.64173097481438 adjoint=303.64173097481427 relative_error=3.7441111060931809e-16 max_backward_error=7.6039217446730086e-18
+13: n=10 steps=80 include_initial=1 tangent=306.29585885340555 adjoint=306.29585885340543 relative_error=3.7116674755967567e-16 max_backward_error=7.6039217446730086e-18
+13: n=100 steps=0 include_initial=0 tangent=0 adjoint=0 relative_error=0 max_backward_error=0
+13: n=100 steps=0 include_initial=1 tangent=-6.6593451390308864 adjoint=-6.6593451390308864 relative_error=0 max_backward_error=0
+13: n=100 steps=1 include_initial=0 tangent=239.21322658734189 adjoint=239.21322658734158 relative_error=1.3069461425465658e-15 max_backward_error=5.2986261828663511e-19
+13: n=100 steps=1 include_initial=1 tangent=232.55388144831102 adjoint=232.55388144831068 relative_error=1.4665870594839092e-15 max_backward_error=5.2986261828663511e-19
+13: n=100 steps=12 include_initial=0 tangent=263.59951350719638 adjoint=263.59951350719649 relative_error=4.3128621979991736e-16 max_backward_error=7.7095284844124635e-19
+13: n=100 steps=12 include_initial=1 tangent=256.94016836816553 adjoint=256.94016836816559 relative_error=2.2123212272266421e-16 max_backward_error=7.7095284844124635e-19
+13: n=100 steps=80 include_initial=0 tangent=264.29760567558208 adjoint=264.29760567558196 relative_error=4.3014705877117725e-16 max_backward_error=7.7095284844124635e-19
+13: n=100 steps=80 include_initial=1 tangent=257.63826053655123 adjoint=257.63826053655112 relative_error=4.412653519894699e-16 max_backward_error=7.7095284844124635e-19
+13: PASS tangent-linear propagation
+2/3 Test #13: state_finder_tangent_linear ...................   Passed    0.38 sec
+test 34
+    Start 34: state_finder_joint_nonlinear_reconstruction
+
+34: Test command: /home/redacted/Sync/transient-pipe-state-finder/build-reproducible/state_finder_joint_nonlinear_reconstruction_test
+34: Working Directory: /home/redacted/Sync/transient-pipe-state-finder/build-reproducible
+34: Test timeout computed to be: 1500
+34: 
+34: CASE regularized
+34: GN initial=0.750746 final=0.000734941 iterations=31 gradient_norm=9.02359e-08 truth_error=0.0208341 seconds=0.211541 converged=1 reason="gradient tolerance" objective_evaluations=63 gradient_evaluations=32 pcg_iterations=1748 operator_calls=1779 damping_retries=0 gradient_fallbacks=0
+34: PCGN initial=0.750746 final=0.000734941 iterations=30 gradient_norm=8.856e-08 truth_error=0.0208327 seconds=0.253666 converged=1 reason="gradient tolerance" objective_evaluations=61 gradient_evaluations=31 pcg_iterations=1905 operator_calls=1935 damping_retries=0 gradient_fallbacks=0
+34: LBFGS initial=0.750746 final=0.000737549 iterations=150 gradient_norm=0.00570827 truth_error=0.0218361 seconds=0.145008 converged=0 reason="Maximum iterations reached" objective_evaluations=332 gradient_evaluations=151 pcg_iterations=0 operator_calls=0 damping_retries=0 gradient_fallbacks=0
+34: pcg_iteration_ratio=1.08982
+34: 
+34: CASE unregularized
+34: GN initial=0.750746 final=4.74585e-10 iterations=12 gradient_norm=9.62267e-08 truth_error=0.0180444 seconds=0.0667868 converged=1 reason="gradient tolerance" objective_evaluations=25 gradient_evaluations=13 pcg_iterations=525 operator_calls=537 damping_retries=0 gradient_fallbacks=0
+34: PCGN initial=0.750746 final=4.74585e-10 iterations=12 gradient_norm=9.64064e-08 truth_error=0.0180444 seconds=0.0754606 converged=1 reason="gradient tolerance" objective_evaluations=25 gradient_evaluations=13 pcg_iterations=536 operator_calls=548 damping_retries=0 gradient_fallbacks=0
+34: LBFGS initial=0.750746 final=1.10533e-06 iterations=150 gradient_norm=0.00295269 truth_error=0.0208223 seconds=0.114651 converged=0 reason="Maximum iterations reached" objective_evaluations=334 gradient_evaluations=151 pcg_iterations=0 operator_calls=0 damping_retries=0 gradient_fallbacks=0
+34: pcg_iteration_ratio=1.02095
+34: 
+34: initial_truth_error=0.235714
+34: regularized_GN_truth_error=0.0208341
+34: unregularized_GN_truth_error=0.0180444
+34: PASS joint nonlinear reconstruction
+3/3 Test #34: state_finder_joint_nonlinear_reconstruction ...   Passed    0.87 sec
+
+The following tests passed:
+	state_finder_adjoint_gradient
+	state_finder_tangent_linear
+	state_finder_joint_nonlinear_reconstruction
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =   1.34 sec
